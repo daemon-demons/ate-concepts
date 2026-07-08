@@ -139,15 +139,15 @@ function handleLogoError(img) {
 function renderModuleCard(mod) {
     const accent = ACCENT_CLASSES[mod.accent] || 'accent-blue';
     const tags = mod.tags.map(t =>
-        `<span class="tag-pill bg-slate-100 text-slate-600 px-2 py-0.5 rounded">${t}</span>`
+        `<span class="tag-pill">${t}</span>`
     ).join(' ');
 
     if (mod.status === 'live') {
         return `
-            <a href="${mod.href}" class="module-card module-card--live block bg-white rounded-xl border border-slate-200 shadow-sm p-6 ${accent}">
+            <a href="${mod.href}" class="module-card module-card--live panel block p-6 ${accent}">
                 <div class="flex items-start justify-between gap-3 mb-3">
-                    <h3 class="font-bold text-slate-900 text-lg leading-snug">${mod.title}</h3>
-                    <svg class="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    <h3 class="font-semibold text-slate-900 text-lg leading-snug">${mod.title}</h3>
+                    <svg class="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                 </div>
                 <p class="text-sm text-slate-600 mb-4">${mod.description}</p>
                 <div class="flex flex-wrap gap-2">${tags}</div>
@@ -155,10 +155,10 @@ function renderModuleCard(mod) {
     }
 
     return `
-        <div class="module-card module-card--soon bg-white rounded-xl border border-dashed border-slate-300 p-6 ${accent}">
+        <div class="module-card module-card--soon panel border-dashed p-6 ${accent}">
             <div class="flex items-start justify-between gap-3 mb-3">
-                <h3 class="font-bold text-slate-700 text-lg leading-snug">${mod.title}</h3>
-                <span class="tag-pill bg-slate-200 text-slate-500 px-2 py-0.5 rounded flex-shrink-0">Coming soon</span>
+                <h3 class="font-semibold text-slate-700 text-lg leading-snug">${mod.title}</h3>
+                <span class="tag-pill tag-pill--soon flex-shrink-0">Coming soon</span>
             </div>
             <p class="text-sm text-slate-500 mb-4">${mod.description}</p>
             <div class="flex flex-wrap gap-2">${tags}</div>
@@ -172,23 +172,23 @@ function renderProviderCard(p) {
         : '';
     return `
         <a href="${p.href}" target="_blank" rel="noopener noreferrer"
-           class="block bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow">
+           class="panel block p-5 hover:border-cyan-600/40 transition-colors">
             <div class="${wrapClass}">
                 ${logoHtml}
                 <div class="provider-initials" style="background-color:${p.color}">${p.initials}</div>
             </div>
-            <h3 class="font-bold text-slate-900 mb-1">${p.name}</h3>
+            <h3 class="font-semibold text-slate-900 mb-1">${p.name}</h3>
             <p class="text-xs text-slate-600 leading-relaxed">${p.specialty}</p>
         </a>`;
 }
 
 function renderConceptCard(c) {
     const explore = c.moduleHref
-        ? `<a href="${c.moduleHref}" class="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-800 mt-3">Explore &rarr;</a>`
+        ? `<a href="${c.moduleHref}" class="inline-flex items-center gap-1 text-sm font-semibold text-cyan-700 hover:text-cyan-900 mt-3 font-mono">Explore →</a>`
         : '';
     return `
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
-            <h3 class="font-bold text-slate-900 mb-2">${c.term}</h3>
+        <div class="panel p-5">
+            <h3 class="font-semibold text-slate-900 mb-2 font-mono text-sm tracking-wide">${c.term}</h3>
             <p class="text-sm text-slate-600 leading-relaxed">${c.definition}</p>
             ${explore}
         </div>`;

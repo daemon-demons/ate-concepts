@@ -4,27 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATE Concepts Hub — Automated Test Equipment Learning</title>
-    <meta name="description" content="Learn automated test equipment (ATE) fundamentals, explore interactive modules, and discover key semiconductor test providers.">
+    <meta name="description" content="Production-focused ATE literacy for silicon engineers: fundamentals, interactive modules, and industry context.">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="global-src/css/site.css">
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="text-slate-800">
 
     <!-- Nav -->
-    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+    <nav class="hub-nav text-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-14">
                 <a href="index.html" class="flex items-center gap-2">
-                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <span class="font-bold text-xl tracking-tight">ATE Concepts Hub</span>
+                    <span class="font-mono text-cyan-400 text-xs tracking-widest">ATE</span>
+                    <span class="font-semibold text-base tracking-tight">Concepts Hub</span>
                 </a>
 
                 <div class="hidden lg:flex items-baseline space-x-1 text-sm font-medium">
                     <a href="#what-is-ate" class="hub-nav-link px-3 py-2 rounded-md">What is ATE</a>
                     <a href="#types" class="hub-nav-link px-3 py-2 rounded-md">Types</a>
                     <a href="#bench-vs-ate" class="hub-nav-link px-3 py-2 rounded-md">Bench vs ATE</a>
-                    <a href="#modules" class="hub-nav-link px-3 py-2 rounded-md text-blue-300">Modules</a>
+                    <a href="#modules" class="hub-nav-link px-3 py-2 rounded-md text-cyan-300">Modules</a>
                     <a href="#concepts" class="hub-nav-link px-3 py-2 rounded-md">Key Concepts</a>
                     <a href="#providers" class="hub-nav-link px-3 py-2 rounded-md">Providers</a>
                 </div>
@@ -39,7 +41,7 @@
                     <a href="#what-is-ate" class="hub-nav-link px-3 py-2 rounded-md">What is ATE</a>
                     <a href="#types" class="hub-nav-link px-3 py-2 rounded-md">Types</a>
                     <a href="#bench-vs-ate" class="hub-nav-link px-3 py-2 rounded-md">Bench vs ATE</a>
-                    <a href="#modules" class="hub-nav-link px-3 py-2 rounded-md text-blue-300">Modules</a>
+                    <a href="#modules" class="hub-nav-link px-3 py-2 rounded-md text-cyan-300">Modules</a>
                     <a href="#concepts" class="hub-nav-link px-3 py-2 rounded-md">Key Concepts</a>
                     <a href="#providers" class="hub-nav-link px-3 py-2 rounded-md">Providers</a>
                 </div>
@@ -48,29 +50,30 @@
     </nav>
 
     <!-- Hero -->
-    <header class="bg-slate-900 text-white border-b border-slate-700">
-        <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
-            <div class="grid lg:grid-cols-2 gap-10 items-center">
-                <div>
-                    <p class="text-blue-400 text-sm font-semibold uppercase tracking-wider mb-3">Semiconductor Test Education</p>
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">Automated Test Equipment</h1>
-                    <p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">
-                        ATE is computer-controlled instrumentation that applies electrical stimuli to a Device Under Test (DUT) and measures its responses — verifying functionality, performance, and reliability at production speed and volume.
-                    </p>
-                    <a href="#modules" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-colors">
-                        Explore Learning Modules
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                    </a>
-                </div>
-                <figure class="rounded-xl overflow-hidden shadow-2xl border border-slate-700">
-                    <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Semiconductor_manufacturing_equipment.jpg/1280px-Semiconductor_manufacturing_equipment.jpg"
-                        alt="Semiconductor manufacturing and test equipment"
-                        class="hero-img w-full"
-                        loading="eager"
-                        referrerpolicy="no-referrer"
-                        onerror="this.parentElement.style.display='none'">
-                </figure>
+    <header class="hero-plane">
+        <div class="hero-plane__media" aria-hidden="true">
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Semiconductor_manufacturing_equipment.jpg/1280px-Semiconductor_manufacturing_equipment.jpg"
+                alt=""
+                loading="eager"
+                referrerpolicy="no-referrer"
+                onerror="this.style.display='none'">
+        </div>
+        <div class="hero-plane__overlay"></div>
+        <div class="hero-plane__grid"></div>
+        <div class="hero-plane__content">
+            <p class="hero-kicker hero-enter">Semiconductor production test</p>
+            <h1 class="hero-brand hero-enter">ATE Concepts Hub</h1>
+            <p class="hero-headline hero-enter hero-enter--delay">Production test literacy for silicon engineers</p>
+            <p class="hero-support hero-enter hero-enter--delay">
+                Computer-controlled instrumentation that forces stimuli on a DUT and measures response — screening devices at wafer sort, final test, and system-level test.
+            </p>
+            <div class="hero-cta-group hero-enter hero-enter--delay-2">
+                <a href="#modules" class="hero-cta-primary">
+                    Explore learning modules
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </a>
+                <a href="#what-is-ate" class="hero-cta-secondary">What is ATE?</a>
             </div>
         </div>
     </header>
@@ -80,62 +83,76 @@
         <!-- What is ATE -->
         <section id="what-is-ate">
             <div class="max-w-3xl mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">What is ATE?</h2>
+                <p class="section-kicker">Fundamentals</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">What is ATE?</h2>
                 <p class="text-slate-600 text-lg leading-relaxed">
-                    Every chip that ships has been tested — often multiple times. ATE systems sit at critical points in the semiconductor lifecycle: <strong>wafer sort</strong> (testing dies on the wafer), <strong>final test</strong> (packaged parts), and <strong>system-level test</strong> (SLT, testing the chip in a near-real system context). Without ATE, defective parts would reach customers, yields would be unknown, and the cost of failure would be enormous.
+                    Every production device is tested — usually more than once. Automated Test Equipment provides deterministic stimulus and measurement so fabs and OSATs can ship quality at volume without leaking escapes to the field.
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8 mb-10">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-800 mb-3">Why ATE Exists</h3>
-                    <ul class="space-y-2 text-sm text-slate-600">
-                        <li><strong class="text-slate-800">Cost of test:</strong> Balance coverage vs. test time per part.</li>
-                        <li><strong class="text-slate-800">Yield tracking:</strong> Bin parts and monitor production health.</li>
-                        <li><strong class="text-slate-800">Time-to-market:</strong> Catch defects before they reach the field.</li>
-                        <li><strong class="text-slate-800">Volume:</strong> Test thousands of parts per hour in production.</li>
+            <div class="lifecycle-strip mb-10">
+                <div class="lifecycle-step">
+                    <div class="lifecycle-step__label">Stage 01</div>
+                    <div class="lifecycle-step__title">Wafer sort</div>
+                    <div class="lifecycle-step__desc">Probe card contact; die-level binning before package</div>
+                </div>
+                <div class="lifecycle-step">
+                    <div class="lifecycle-step__label">Stage 02</div>
+                    <div class="lifecycle-step__title">Final test</div>
+                    <div class="lifecycle-step__desc">Packaged parts on handler; production screens</div>
+                </div>
+                <div class="lifecycle-step">
+                    <div class="lifecycle-step__label">Stage 03</div>
+                    <div class="lifecycle-step__title">System-level test</div>
+                    <div class="lifecycle-step__desc">Near-application exercise before ship</div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-10">
+                <div class="panel panel--tint p-6">
+                    <h3 class="font-semibold text-slate-900 mb-3 font-mono text-sm tracking-wide uppercase text-cyan-800">Why ATE exists</h3>
+                    <ul class="space-y-2.5 text-sm text-slate-600">
+                        <li><strong class="text-slate-800">Cost of test</strong> — coverage vs. test time per unit</li>
+                        <li><strong class="text-slate-800">Yield</strong> — bin maps and production health</li>
+                        <li><strong class="text-slate-800">Escapes</strong> — catch fails before customer DOA</li>
+                        <li><strong class="text-slate-800">Throughput</strong> — multisite + handler cadence</li>
                     </ul>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-800 mb-3">Core Architecture</h3>
-                    <ul class="space-y-2 text-sm text-slate-600">
-                        <li><strong class="text-slate-800">Test head:</strong> Pin electronics and measurement hardware.</li>
-                        <li><strong class="text-slate-800">DIB / Loadboard:</strong> Routes signals to the DUT socket.</li>
-                        <li><strong class="text-slate-800">Handler / Prober:</strong> Positions the DUT against pogo pins.</li>
-                        <li><strong class="text-slate-800">Test program:</strong> Patterns, levels, timing, and limits.</li>
+                <div class="panel panel--tint p-6">
+                    <h3 class="font-semibold text-slate-900 mb-3 font-mono text-sm tracking-wide uppercase text-cyan-800">Core architecture</h3>
+                    <ul class="space-y-2.5 text-sm text-slate-600">
+                        <li><strong class="text-slate-800">Test head</strong> — pin electronics &amp; instruments</li>
+                        <li><strong class="text-slate-800">DIB / loadboard</strong> — channel-to-socket routing</li>
+                        <li><strong class="text-slate-800">Handler / prober</strong> — mechanical contact</li>
+                        <li><strong class="text-slate-800">Test program</strong> — patterns, levels, timing, limits</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Signal path flow -->
-            <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="font-bold text-slate-800 mb-6 text-center">Signal Path: Tester to DUT</h3>
-                <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-                    <div class="text-center bg-blue-50 border border-blue-200 rounded-lg px-6 py-4 min-w-[8rem]">
-                        <div class="text-2xl mb-1">⚡</div>
-                        <div class="font-bold text-blue-900 text-sm">Tester</div>
-                        <div class="text-xs text-blue-700">ATE System</div>
+            <div class="panel p-6 md:p-8">
+                <h3 class="font-mono text-xs tracking-widest uppercase text-slate-500 mb-6 text-center">Signal path — tester to DUT</h3>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4">
+                    <div class="flow-step flow-step--ate">
+                        <div class="flow-step__code">ATE</div>
+                        <div class="flow-step__name">Tester</div>
                     </div>
-                    <span class="flow-arrow flow-arrow--right">→</span>
-                    <span class="flow-arrow flow-arrow--down">↓</span>
-                    <div class="text-center bg-slate-100 border border-slate-200 rounded-lg px-6 py-4 min-w-[8rem]">
-                        <div class="text-2xl mb-1">🔌</div>
-                        <div class="font-bold text-slate-800 text-sm">DIB</div>
-                        <div class="text-xs text-slate-600">Loadboard</div>
+                    <span class="flow-arrow flow-arrow--right" aria-hidden="true">→</span>
+                    <span class="flow-arrow flow-arrow--down" aria-hidden="true">↓</span>
+                    <div class="flow-step">
+                        <div class="flow-step__code">Board</div>
+                        <div class="flow-step__name">DIB</div>
                     </div>
-                    <span class="flow-arrow flow-arrow--right">→</span>
-                    <span class="flow-arrow flow-arrow--down">↓</span>
-                    <div class="text-center bg-slate-100 border border-slate-200 rounded-lg px-6 py-4 min-w-[8rem]">
-                        <div class="text-2xl mb-1">🤖</div>
-                        <div class="font-bold text-slate-800 text-sm">Handler</div>
-                        <div class="text-xs text-slate-600">or Prober</div>
+                    <span class="flow-arrow flow-arrow--right" aria-hidden="true">→</span>
+                    <span class="flow-arrow flow-arrow--down" aria-hidden="true">↓</span>
+                    <div class="flow-step">
+                        <div class="flow-step__code">Mech</div>
+                        <div class="flow-step__name">Handler</div>
                     </div>
-                    <span class="flow-arrow flow-arrow--right">→</span>
-                    <span class="flow-arrow flow-arrow--down">↓</span>
-                    <div class="text-center bg-green-50 border border-green-200 rounded-lg px-6 py-4 min-w-[8rem]">
-                        <div class="text-2xl mb-1">💎</div>
-                        <div class="font-bold text-green-900 text-sm">DUT</div>
-                        <div class="text-xs text-green-700">Device Under Test</div>
+                    <span class="flow-arrow flow-arrow--right" aria-hidden="true">→</span>
+                    <span class="flow-arrow flow-arrow--down" aria-hidden="true">↓</span>
+                    <div class="flow-step flow-step--dut">
+                        <div class="flow-step__code">Device</div>
+                        <div class="flow-step__name">DUT</div>
                     </div>
                 </div>
             </div>
@@ -144,33 +161,40 @@
         <!-- Types of ATE -->
         <section id="types">
             <div class="max-w-3xl mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">Types of ATE</h2>
-                <p class="text-slate-600 text-lg">Different device classes require specialized test platforms. The major categories below cover most of the semiconductor test market.</p>
+                <p class="section-kicker">Platforms</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Types of ATE</h2>
+                <p class="text-slate-600 text-lg">Device class drives pin electronics, instruments, and handler strategy. Most of the market clusters into these families.</p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-900 mb-2">SoC / Digital</h3>
-                    <p class="text-sm text-slate-600">High-pin-count digital and mixed-signal SoCs. Examples: Advantest V93000, Teradyne UltraFLEX.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="panel p-5">
+                    <h3 class="font-semibold text-slate-900">SoC / Digital</h3>
+                    <p class="platform-cue">V93000 · UltraFLEX</p>
+                    <p class="text-sm text-slate-600 mt-3">High pin-count digital and mixed-signal SoCs.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-900 mb-2">Memory</h3>
-                    <p class="text-sm text-slate-600">DRAM, NAND, and flash at wafer and final test. Examples: Advantest T5500/T5800 series.</p>
+                <div class="panel p-5">
+                    <h3 class="font-semibold text-slate-900">Memory</h3>
+                    <p class="platform-cue">T5500 · T5800</p>
+                    <p class="text-sm text-slate-600 mt-3">DRAM, NAND, and flash at wafer and final test.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-900 mb-2">Analog / Mixed-Signal</h3>
-                    <p class="text-sm text-slate-600">Precision analog, data converters, and power management ICs. Heritage: Eagle Test Systems ETS series.</p>
+                <div class="panel p-5">
+                    <h3 class="font-semibold text-slate-900">Analog / Mixed-Signal</h3>
+                    <p class="platform-cue">ETS / Eagle Test heritage</p>
+                    <p class="text-sm text-slate-600 mt-3">Precision analog, converters, and PMICs.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-900 mb-2">RF / Wireless</h3>
-                    <p class="text-sm text-slate-600">Cellular, Wi-Fi, and radar device test. Examples: LitePoint (Teradyne), NI PXI-based systems.</p>
+                <div class="panel p-5">
+                    <h3 class="font-semibold text-slate-900">RF / Wireless</h3>
+                    <p class="platform-cue">LitePoint · NI PXI</p>
+                    <p class="text-sm text-slate-600 mt-3">Cellular, Wi-Fi, and radar device test.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-900 mb-2">Power / Discrete</h3>
-                    <p class="text-sm text-slate-600">SiC, GaN, MOSFETs, and IGBTs. Examples: Chroma ATE, Cohu Diamondx.</p>
+                <div class="panel p-5">
+                    <h3 class="font-semibold text-slate-900">Power / Discrete</h3>
+                    <p class="platform-cue">Chroma · Cohu Diamondx</p>
+                    <p class="text-sm text-slate-600 mt-3">SiC, GaN, MOSFETs, and IGBTs.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-900 mb-2">System-Level Test (SLT)</h3>
-                    <p class="text-sm text-slate-600">Tests the chip in a near-real system environment — often the last gate before shipping.</p>
+                <div class="panel p-5">
+                    <h3 class="font-semibold text-slate-900">System-Level Test</h3>
+                    <p class="platform-cue">SLT platforms</p>
+                    <p class="text-sm text-slate-600 mt-3">Near-real application context; last gate before ship.</p>
                 </div>
             </div>
         </section>
@@ -178,45 +202,63 @@
         <!-- Bench vs ATE -->
         <section id="bench-vs-ate">
             <div class="max-w-3xl mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">Bench vs. Automated Test</h2>
-                <p class="text-slate-600 text-lg">Both bench instruments and ATE measure electrical behavior — but they serve different stages of the product lifecycle.</p>
+                <p class="section-kicker">Lifecycle roles</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Bench vs. Automated Test</h2>
+                <p class="text-slate-600 text-lg">Same physics, different constraints: exploration in the lab versus deterministic screen on the manufacturing floor.</p>
             </div>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-200">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center text-xl">🔬</div>
-                        <h3 class="font-bold text-slate-900 text-xl">Bench Testing</h3>
-                    </div>
-                    <ul class="space-y-3 text-sm text-slate-600">
-                        <li>Oscilloscopes, SMUs, spectrum analyzers, and custom setups</li>
-                        <li>Manual or scripted — high flexibility for exploration</li>
-                        <li>Low volume: one DUT at a time, engineer-driven</li>
-                        <li>Used for <strong>validation, characterization, and debug</strong></li>
-                        <li>Lower capital cost, higher cost per part tested</li>
-                    </ul>
-                </div>
-                <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-200">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-xl">🏭</div>
-                        <h3 class="font-bold text-slate-900 text-xl">Automated Test Equipment</h3>
-                    </div>
-                    <ul class="space-y-3 text-sm text-slate-600">
-                        <li>Dedicated test head with hundreds of pin channels</li>
-                        <li>Fully automated via test program — deterministic timing</li>
-                        <li>High volume: multisite parallel test with handlers</li>
-                        <li>Used for <strong>production screening and yield tracking</strong></li>
-                        <li>High capital cost, pennies per part at volume</li>
-                    </ul>
-                </div>
+
+            <div class="compare-table-wrap">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Dimension</th>
+                            <th scope="col">Bench</th>
+                            <th scope="col">ATE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Purpose</th>
+                            <td>Validation, characterization, debug</td>
+                            <td>Production screen, yield, binning</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Instrumentation</th>
+                            <td>Scopes, SMUs, analyzers, scripts</td>
+                            <td>Pin electronics, PPMU, patterns</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Timing</th>
+                            <td>Lab / exploratory</td>
+                            <td>Deterministic, calibrated to DUT pin</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Volume</th>
+                            <td>Single site, engineer-paced</td>
+                            <td>Multisite + handler / prober</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Economics</th>
+                            <td>Lower CapEx, higher cost / part</td>
+                            <td>High CapEx, low cost / part at volume</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Owner</th>
+                            <td>DV / characterization</td>
+                            <td>Product / production test</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <p class="text-center text-slate-500 mt-8 text-sm italic">Bench validates the design. ATE screens every part that ships.</p>
+            <p class="text-center text-slate-500 mt-6 text-sm font-mono tracking-wide">Bench validates the design. ATE screens every part that ships.</p>
         </section>
 
         <!-- Learning Modules -->
         <section id="modules">
             <div class="max-w-3xl mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">Learning Modules</h2>
-                <p class="text-slate-600 text-lg">Interactive guides and deep dives into ATE concepts. New modules are added over time — check back for more.</p>
+                <p class="section-kicker">Interactive</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Learning Modules</h2>
+                <p class="text-slate-600 text-lg">Hands-on deep dives into production-test concepts. Live modules open immediately; the rest of the roadmap is listed as coming soon.</p>
             </div>
             <div id="modules-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Rendered by hub.js from modules.js -->
@@ -226,8 +268,9 @@
         <!-- Key Concepts -->
         <section id="concepts">
             <div class="max-w-3xl mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">Key Concepts in ATE Testing</h2>
-                <p class="text-slate-600 text-lg">A glossary of terms you'll encounter across semiconductor test. Terms with interactive modules link out for a deeper dive.</p>
+                <p class="section-kicker">Glossary</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Key Concepts in ATE Testing</h2>
+                <p class="text-slate-600 text-lg">Terms you will see across semiconductor test. Entries with a live module include an Explore link.</p>
             </div>
             <div id="concepts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 <!-- Rendered by hub.js -->
@@ -237,8 +280,9 @@
         <!-- Providers -->
         <section id="providers">
             <div class="max-w-3xl mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">Key ATE Service Providers</h2>
-                <p class="text-slate-600 text-lg">The semiconductor ATE market is dominated by a few major players, with specialized vendors filling niche segments. Advantest and Teradyne together hold roughly 80–90% of the market.</p>
+                <p class="section-kicker">Market</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Key ATE Providers</h2>
+                <p class="text-slate-600 text-lg">Advantest and Teradyne anchor most SoC and memory capacity; specialists fill power, RF, handlers, and niche silicon.</p>
             </div>
             <div id="providers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 <!-- Rendered by hub.js -->
@@ -248,29 +292,31 @@
     </main>
 
     <!-- About footer -->
-    <footer class="bg-slate-900 text-white border-t border-slate-700">
+    <footer class="bg-slate-950 text-white border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 py-12">
             <div class="grid md:grid-cols-2 gap-10 items-start">
                 <div>
-                    <h2 class="text-xl font-bold mb-2">About the Author</h2>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
-                        <strong class="text-white">Siva Chidambaram</strong> — Sr. Silicon Validation Engineer at Tessolve, Bengaluru, India.
-                        Specializes in ARM-based SoC bring-up, silicon validation, and production test on the Advantest V93000 SmarTest platform.
-                        ~7 years in semiconductor test and validation.
+                    <p class="font-mono text-xs tracking-widest uppercase text-cyan-400 mb-2">About</p>
+                    <h2 class="text-xl font-bold mb-2">Siva Chidambaram</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-1">
+                        Sr. Silicon Validation Engineer · Tessolve · Bengaluru
+                    </p>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        ARM SoC bring-up, silicon validation, and production test on Advantest V93000 / SmarTest. ~7 years in semiconductor test and validation.
                     </p>
                     <a href="https://www.linkedin.com/in/siva-chidambaram/" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors">
+                       class="inline-flex items-center gap-2 bg-cyan-700 hover:bg-cyan-600 text-white text-sm font-semibold py-2 px-4 rounded transition-colors">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 114.127 0 2.063 2.063 0 01-2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                        Connect on LinkedIn
+                        LinkedIn
                     </a>
                 </div>
-                <div class="text-slate-400 text-sm">
-                    <p class="mb-2">ATE Concepts Hub — an interactive learning resource for semiconductor test engineers.</p>
-                    <p>New modules and concepts are added regularly. Built for engineers, by engineers.</p>
+                <div class="text-slate-500 text-sm md:text-right">
+                    <p class="font-mono text-xs tracking-wide text-slate-400 mb-2">ATE CONCEPTS HUB</p>
+                    <p>Interactive reference for semiconductor production test.</p>
                 </div>
             </div>
-            <div class="border-t border-slate-700 mt-10 pt-6 text-center text-slate-500 text-xs">
-                &copy; 2026 Siva Chidambaram &bull; ATE Concepts Hub
+            <div class="border-t border-slate-800 mt-10 pt-6 text-center text-slate-600 text-xs font-mono">
+                &copy; 2026 Siva Chidambaram · ATE Concepts Hub
             </div>
         </div>
     </footer>
