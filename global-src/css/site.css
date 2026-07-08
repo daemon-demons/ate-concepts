@@ -1,9 +1,15 @@
+/* =========================================================
+   global-src/css/site.css
+   Default site styles for hub + all modules.
+   Page-local CSS should only override or add module-specific rules.
+   ========================================================= */
+
 body {
     font-family: 'Inter', sans-serif;
     scroll-behavior: smooth;
 }
 
-/* Hub nav */
+/* ----- Hub nav ----- */
 .hub-nav-link {
     transition: background-color 0.15s ease;
 }
@@ -22,7 +28,7 @@ body {
     max-height: 24rem;
 }
 
-/* Module cards */
+/* ----- Module cards (hub) ----- */
 .module-card {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -36,7 +42,7 @@ body {
     opacity: 0.72;
 }
 
-/* Provider logos */
+/* ----- Provider logos (hub) ----- */
 .provider-logo-wrap {
     height: 3.5rem;
     display: flex;
@@ -70,13 +76,56 @@ body {
     display: flex;
 }
 
-/* Hero image */
+/* ----- Shared media / diagrams ----- */
 .hero-img {
     aspect-ratio: 16 / 9;
     object-fit: cover;
 }
 
-/* Architecture flow arrows */
+.slide-img {
+    width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    margin-bottom: 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+.intro-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .intro-layout {
+        grid-template-columns: 2fr 3fr;
+        gap: 2.5rem;
+    }
+}
+
+.intro-text {
+    min-width: 0;
+}
+
+.intro-figure {
+    margin: 0;
+    min-width: 0;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.1);
+}
+
+.intro-diagram {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0.5rem;
+}
+
+/* ----- Architecture flow arrows (hub) ----- */
 .flow-arrow {
     color: rgb(148 163 184);
     font-size: 1.5rem;
@@ -96,7 +145,7 @@ body {
     }
 }
 
-/* Tag pills */
+/* ----- Tag pills / accents (hub) ----- */
 .tag-pill {
     font-size: 0.7rem;
     font-weight: 600;
@@ -104,10 +153,39 @@ body {
     text-transform: uppercase;
 }
 
-/* Accent borders for module cards */
 .accent-blue   { border-left: 4px solid #3b82f6; }
 .accent-green  { border-left: 4px solid #22c55e; }
 .accent-purple { border-left: 4px solid #a855f7; }
 .accent-orange { border-left: 4px solid #f97316; }
 .accent-indigo { border-left: 4px solid #6366f1; }
 .accent-teal   { border-left: 4px solid #14b8a6; }
+
+/* ----- Simulation chrome (reusable across modules) ----- */
+canvas {
+    background-color: #0f172a;
+    border-radius: 0.5rem;
+    width: 100%;
+    display: block;
+}
+
+.canvas-light {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+}
+
+.sim-timer {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: #0f172a;
+    color: #4ade80;
+    font-family: ui-monospace, monospace;
+    font-size: 1.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
+}
+
+.sim-timer.hidden {
+    display: none;
+}
