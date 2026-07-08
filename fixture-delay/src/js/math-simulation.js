@@ -18,6 +18,8 @@ function initMathSimulation() {
     const PIXELS_PER_NS = 80;
     const POGO_Y = ATE_Y_BOTTOM - (ATE_INTERNAL_DELAY_NS * PIXELS_PER_NS);
     const WIRE_X = 200;
+    const CANVAS_W = 400;
+    const CANVAS_H = 500;
 
     let targetDibDelayNs = parseFloat(slider.value);
     let displayDibDelayNs = targetDibDelayNs;
@@ -46,6 +48,13 @@ function initMathSimulation() {
         wireTs: '#10b981',
         wireIdle: '#cbd5e1'
     };
+
+    function setupHiDPI() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = CANVAS_W * dpr;
+        canvas.height = CANVAS_H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
 
     function getSocketY() {
         return POGO_Y - (displayDibDelayNs * PIXELS_PER_NS);
@@ -78,7 +87,7 @@ function initMathSimulation() {
         ctx.lineTo(x, y1);
         ctx.lineTo(x + 4, y1 + 6);
         ctx.fill();
-        ctx.font = '10px Inter, sans-serif';
+        ctx.font = '10px IBM Plex Sans, sans-serif';
         ctx.textAlign = 'left';
         ctx.fillText(label, x + 8, midY + 4);
     }
@@ -94,7 +103,7 @@ function initMathSimulation() {
         ctx.lineWidth = 2;
         ctx.strokeRect(40, ATE_Y_BOTTOM, 320, 50);
         ctx.fillStyle = 'white';
-        ctx.font = '14px Inter, sans-serif';
+        ctx.font = '14px IBM Plex Sans, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('DPS/DIGITAL CARDS', 200, ATE_Y_BOTTOM + 30);
 
@@ -103,7 +112,7 @@ function initMathSimulation() {
         ctx.fillRect(40, POGO_Y, 320, ATE_Y_BOTTOM - POGO_Y);
         ctx.strokeRect(40, POGO_Y, 320, ATE_Y_BOTTOM - POGO_Y);
         ctx.fillStyle = 'white';
-        ctx.font = 'bold 15px Inter, sans-serif';
+        ctx.font = 'bold 15px IBM Plex Sans, sans-serif';
         ctx.fillText('ATE (PPMU)', 200, POGO_Y + (ATE_Y_BOTTOM - POGO_Y) / 2 + 5);
         drawDelayArrow(370, POGO_Y, ATE_Y_BOTTOM, `${ATE_INTERNAL_DELAY_NS.toFixed(1)} ns (ATE)`, '#3b82f6');
 
@@ -117,7 +126,7 @@ function initMathSimulation() {
         ctx.fillRect(40, socketY, 320, POGO_Y - socketY);
         ctx.strokeRect(40, socketY, 320, POGO_Y - socketY);
         ctx.fillStyle = 'white';
-        ctx.font = '14px Inter, sans-serif';
+        ctx.font = '14px IBM Plex Sans, sans-serif';
         ctx.fillText('DIB (Load Board)', 200, socketY + (POGO_Y - socketY) / 2 + 5);
         if (POGO_Y - socketY > 20) {
             drawDelayArrow(370, socketY, POGO_Y, `${displayDibDelayNs.toFixed(1)} ns (DIB)`, '#6366f1');
@@ -159,7 +168,7 @@ function initMathSimulation() {
         ctx.stroke();
         ctx.fillStyle = pogoActive ? '#b45309' : '#64748b';
         ctx.textAlign = 'left';
-        ctx.font = `${pogoActive ? 'bold ' : ''}12px Inter, sans-serif`;
+        ctx.font = `${pogoActive ? 'bold ' : ''}12px IBM Plex Sans, sans-serif`;
         ctx.fillText(`Pogo Pins  (t_p boundary · ${ATE_INTERNAL_DELAY_NS.toFixed(1)} ns one-way)`, 25, POGO_Y - 6);
 
         // Socket boundary
@@ -198,7 +207,7 @@ function initMathSimulation() {
             ctx.fill();
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'white';
-            ctx.font = '10px sans-serif';
+            ctx.font = '10px IBM Plex Sans, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(pulseDir === -1 ? '▲' : '▼', WIRE_X, pulseY + 3);
         }
@@ -336,5 +345,6 @@ function initMathSimulation() {
     btnTp.addEventListener('click', () => startMeasurement('RUNNING_TP'));
     btnTs.addEventListener('click', () => startMeasurement('RUNNING_TS'));
 
+    setupHiDPI();
     drawScene();
 }

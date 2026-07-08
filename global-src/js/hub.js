@@ -31,7 +31,7 @@ const PROVIDERS = [
         name: 'Cohu',
         specialty: 'Test handlers, contactors, thermal management, and Diamondx testers.',
         href: 'https://www.cohu.com/',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Cohu_logo.svg/320px-Cohu_logo.svg.png',
+        logo: null,
         initials: 'COH',
         color: '#7c3aed'
     },
@@ -55,7 +55,7 @@ const PROVIDERS = [
         name: 'Keysight',
         specialty: 'Parametric wafer test, high-frequency, and semiconductor characterization.',
         href: 'https://www.keysight.com/',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Keysight_Technologies_logo.svg/320px-Keysight_Technologies_logo.svg.png',
+        logo: null,
         initials: 'KEY',
         color: '#e11d48'
     },
@@ -209,19 +209,7 @@ function initHub() {
         conceptsGrid.innerHTML = KEY_CONCEPTS.map(renderConceptCard).join('');
     }
 
-    // Mobile nav toggle
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            const expanded = mobileMenu.classList.contains('open');
-            menuBtn.setAttribute('aria-expanded', expanded);
-        });
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
-        });
-    }
+    initMobileNav();
 }
 
 document.addEventListener('DOMContentLoaded', initHub);

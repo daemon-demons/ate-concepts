@@ -17,8 +17,7 @@ function initPPMUSimulation() {
             wireAbove: 168,      // reserved band above wire
             wireBelow: 232,      // Merge / junction labels
             bracket: 248,        // round-trip dashed line
-            bracketLabel: 262,   // round-trip text
-            terminalLabelX: 712  // right of open boundary
+            bracketLabel: 262    // round-trip text
         }
     };
 
@@ -26,11 +25,13 @@ function initPPMUSimulation() {
     let pulseX = 0;
     let animationFrameId;
     let animStartTime = 0;
+    let runStartTime = 0;
     let reflectionFlash = 0;
     let resetTimeout = null;
 
     const SIM_NS = 3.0;
     const TIME_SCALE = 600;
+    const FONT = 'IBM Plex Sans, sans-serif';
 
     function setupHiDPI() {
         const dpr = window.devicePixelRatio || 1;
@@ -196,7 +197,7 @@ function initPPMUSimulation() {
 
         // Band above the wire
         ctx.fillStyle = '#64748b';
-        ctx.font = '11px Inter, sans-serif';
+        ctx.font = `11px ${FONT}`;
         ctx.textAlign = 'center';
         ctx.fillText('Transmission Wire', (startX + endX) / 2, labels.wireAbove);
         ctx.textAlign = 'right';
@@ -204,29 +205,29 @@ function initPPMUSimulation() {
 
         // Junction label
         ctx.fillStyle = '#94a3b8';
-        ctx.font = '10px Inter, sans-serif';
+        ctx.font = `10px ${FONT}`;
         ctx.textAlign = 'center';
         ctx.fillText('Merge', startX, labels.wireBelow);
 
         // Round-trip bracket label
         ctx.fillText('Round-trip path', (startX + endX) / 2, labels.bracketLabel);
 
-        // Open terminal label, right of the boundary bar (two lines to fit)
+        // Open terminal label — right-aligned beside the boundary bar so it stays on-canvas
         ctx.fillStyle = '#94a3b8';
-        ctx.font = '11px Inter, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('Open Terminal', labels.terminalLabelX, wireY - 4);
-        ctx.fillText('(e.g., Pogo Pin)', labels.terminalLabelX, wireY + 12);
+        ctx.font = `11px ${FONT}`;
+        ctx.textAlign = 'right';
+        ctx.fillText('Open Terminal', endX - 8, wireY + 58);
+        ctx.fillText('(e.g., Pogo Pin)', endX - 8, wireY + 72);
 
         // PPMU box title, centered in the box
         ctx.fillStyle = '#e2e8f0';
-        ctx.font = 'bold 17px Inter, sans-serif';
+        ctx.font = `bold 17px ${FONT}`;
         ctx.textAlign = 'center';
         ctx.fillText('ATE Channel (PPMU)', ppmuBox.x + ppmuBox.w / 2, 80);
 
         // Force / Sense labels, centered in their blocks
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 13px Inter, sans-serif';
+        ctx.font = `bold 13px ${FONT}`;
         ctx.fillText('Force (Drive)', force.x + force.w / 2, forceMidY + 5);
         ctx.fillText('Sense (Measure)', sense.x + sense.w / 2, senseMidY + 5);
 
@@ -236,10 +237,11 @@ function initPPMUSimulation() {
     function animate(timestamp) {
         const { startX, endX } = LAYOUT.wire;
         if (!animStartTime) animStartTime = timestamp;
+        if (!runStartTime) runStartTime = timestamp;
         const elapsed = timestamp - animStartTime;
         const oneWayMs = (SIM_NS / 2) * TIME_SCALE;
 
-        let simTimeNs = Math.min(elapsed / TIME_SCALE, SIM_NS).toFixed(2);
+        const simTimeNs = Math.min((timestamp - runStartTime) / TIME_SCALE, SIM_NS).toFixed(2);
         liveTimer.innerText = `${simTimeNs} ns`;
 
         // A propagating wave travels at constant velocity, so position
@@ -283,6 +285,7 @@ function initPPMUSimulation() {
         state = 'FORCING';
         pulseX = LAYOUT.wire.startX;
         animStartTime = 0;
+        runStartTime = 0;
         reflectionFlash = 0;
         fireBtn.disabled = true;
         fireBtn.classList.add('opacity-50', 'cursor-not-allowed');

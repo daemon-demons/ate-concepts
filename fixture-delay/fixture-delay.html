@@ -5,30 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATE Fixture Delay Calibration - Interactive Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../global-src/css/site.css">
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+    <nav class="hub-nav text-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-14">
                 <a href="../index.html" class="flex items-center gap-2">
-                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <span class="font-bold text-xl tracking-tight">ATE Concepts Hub</span>
+                    <span class="font-mono text-cyan-400 text-xs tracking-widest">ATE</span>
+                    <span class="font-semibold text-base tracking-tight">Concepts Hub</span>
                 </a>
-                <div class="hidden md:block">
-                    <div class="flex items-baseline space-x-4 text-sm font-medium">
-                        <a href="../index.html" class="hover:bg-slate-800 px-3 py-2 rounded-md text-green-300">Home</a>
-                        <a href="../index.html#modules" class="hover:bg-slate-800 px-3 py-2 rounded-md text-green-300">Modules</a>
-                        <a href="#intro" class="hover:bg-slate-800 px-3 py-2 rounded-md">Introduction</a>
-                        <a href="#causes" class="hover:bg-slate-800 px-3 py-2 rounded-md">Causes &amp; Impacts</a>
-                        <a href="#sim-ppmu" class="hover:bg-slate-800 px-3 py-2 rounded-md text-blue-300">PPMU</a>
-                        <a href="#sim-math" class="hover:bg-slate-800 px-3 py-2 rounded-md text-blue-300">FXDL</a>
-                        <a href="#advanced" class="hover:bg-slate-800 px-3 py-2 rounded-md text-purple-300">Timing Compensation</a>
-                        <a href="#references" class="hover:bg-slate-800 px-3 py-2 rounded-md">References</a>
-                    </div>
+                <div class="hidden lg:flex items-baseline space-x-1 text-sm font-medium">
+                    <a href="../index.html" class="hub-nav-link px-3 py-2 rounded-md text-cyan-300">Home</a>
+                    <a href="../index.html#modules" class="hub-nav-link px-3 py-2 rounded-md text-cyan-300">Modules</a>
+                    <a href="#intro" class="hub-nav-link px-3 py-2 rounded-md">Introduction</a>
+                    <a href="#causes" class="hub-nav-link px-3 py-2 rounded-md">Causes</a>
+                    <a href="#sim-ppmu" class="hub-nav-link px-3 py-2 rounded-md">PPMU</a>
+                    <a href="#sim-math" class="hub-nav-link px-3 py-2 rounded-md">FXDL</a>
+                    <a href="#advanced" class="hub-nav-link px-3 py-2 rounded-md">Compensation</a>
+                    <a href="#references" class="hub-nav-link px-3 py-2 rounded-md">References</a>
+                </div>
+                <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-md hover:bg-slate-800" aria-label="Toggle menu" aria-expanded="false">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="lg:hidden hidden pb-4" inert>
+                <div class="flex flex-col space-y-1 text-sm font-medium">
+                    <a href="../index.html" class="hub-nav-link px-3 py-2 rounded-md text-cyan-300">Home</a>
+                    <a href="../index.html#modules" class="hub-nav-link px-3 py-2 rounded-md text-cyan-300">Modules</a>
+                    <a href="#intro" class="hub-nav-link px-3 py-2 rounded-md">Introduction</a>
+                    <a href="#causes" class="hub-nav-link px-3 py-2 rounded-md">Causes &amp; Impacts</a>
+                    <a href="#sim-ppmu" class="hub-nav-link px-3 py-2 rounded-md">PPMU</a>
+                    <a href="#sim-math" class="hub-nav-link px-3 py-2 rounded-md">FXDL</a>
+                    <a href="#advanced" class="hub-nav-link px-3 py-2 rounded-md">Timing Compensation</a>
+                    <a href="#references" class="hub-nav-link px-3 py-2 rounded-md">References</a>
                 </div>
             </div>
         </div>
@@ -102,16 +117,19 @@
             </div>
 
             <div class="bg-slate-900 p-4 md:p-8 rounded-2xl shadow-xl">
-                <div class="relative max-w-3xl mx-auto mb-6">
-                    <canvas id="ppmu_canvas" width="800" height="400" role="img" aria-label="PPMU TDR pulse animation: a sine-wave pulse travels from the ATE channel down the transmission wire, reflects off the open boundary, and returns to the Sense circuit"></canvas>
+                <div class="relative max-w-3xl mx-auto mb-2">
+                    <div class="canvas-scroll canvas-scroll--ppmu">
+                        <canvas id="ppmu_canvas" width="800" height="400" role="img" aria-label="PPMU TDR pulse animation: a sine-wave pulse travels from the ATE channel down the transmission wire, reflects off the open boundary, and returns to the Sense circuit"></canvas>
+                    </div>
                     <div id="ppmu_timer" class="sim-timer hidden">0.00 ns</div>
                 </div>
+                <p class="canvas-scroll-hint max-w-3xl mx-auto mb-6">Scroll horizontally to view full diagram</p>
 
                 <div class="bg-white p-4 rounded-xl flex flex-col md:flex-row items-center gap-6 max-w-3xl mx-auto">
                     <button id="ppmu_btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-colors active:scale-95 whitespace-nowrap">
                         ▶ Fire Pulse
                     </button>
-                    <div class="flex-1 border-l-4 border-blue-500 pl-4 bg-blue-50 p-4 rounded-r-lg w-full" aria-live="polite">
+                    <div class="flex-1 border-t-4 md:border-t-0 md:border-l-4 border-blue-500 pt-4 md:pt-0 md:pl-4 bg-blue-50 p-4 rounded-r-lg w-full" aria-live="polite">
                         <h3 class="font-bold text-blue-900 mb-1" id="ppmu_title">Idle</h3>
                         <p class="text-sm text-blue-800" id="ppmu_desc">Press "Fire Pulse" to see how the Force and Sense circuits utilize the same wire.</p>
                     </div>
@@ -141,9 +159,12 @@
                             <input type="range" id="math_slider" min="0.5" max="3.0" step="0.1" value="1.0" class="w-full accent-blue-600">
                         </div>
                         <div class="relative shadow-md rounded-xl w-full">
-                            <canvas id="math_canvas" width="400" height="500" class="canvas-light"></canvas>
+                            <div class="canvas-scroll canvas-scroll--math">
+                                <canvas id="math_canvas" width="400" height="500" class="canvas-light"></canvas>
+                            </div>
                             <div id="math_timer" class="sim-timer hidden">0.00 ns</div>
                         </div>
+                        <p class="canvas-scroll-hint mt-2">Scroll horizontally to view full diagram</p>
                     </div>
 
                     <div class="flex-1 w-full flex flex-col gap-4">
@@ -157,7 +178,7 @@
                                     <span>2. Measure t<sub>s</sub></span>
                                 </button>
                             </div>
-                            <div id="math_status" class="text-sm text-slate-600 italic h-10 flex items-center">
+                            <div id="math_status" class="text-sm text-slate-600 italic min-h-10 flex items-start py-1">
                                 Waiting to start measurements. Measure t_p first to establish the baseline.
                             </div>
                         </div>
@@ -236,7 +257,9 @@
                     <li>
                         Walther, S. &amp; Hu, Y. &mdash;
                         <a href="https://www3.advantest.com/documents/11348/d0bf6389-2381-4930-9281-0069c1ea2b86" class="text-blue-600 hover:underline" target="_blank" rel="noopener">Solving MIPI D-PHY Transmitter Test Challenges</a>
-                        (Advantest V93000) &mdash; fixture delay calibration sections
+                        (Advantest V93000) &mdash; fixture delay calibration sections.
+                        Local copy:
+                        <a href="src/assets/Solving_MIPI_D-PHY_Transmitter_Test_Challenges.pdf" class="text-blue-600 hover:underline" download>download PDF</a>
                     </li>
                     <li>Advantest &mdash; V93000 Online Documentation (TDR / fixture delay calibration)</li>
                 </ol>
