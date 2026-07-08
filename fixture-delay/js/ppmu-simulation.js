@@ -6,6 +6,22 @@ function initPPMUSimulation() {
     const statusText = document.getElementById('ppmu_desc');
     const liveTimer = document.getElementById('ppmu_timer');
 
+    // All geometry lives here so alignment tweaks stay in one place.
+    const LAYOUT = {
+        canvas: { w: 800, h: 400 },
+        ppmuBox: { x: 40, y: 50, w: 210, h: 300 },
+        wire: { startX: 250, endX: 700, y: 200 },
+        force: { x: 60, y: 110, w: 120, h: 60 },
+        sense: { x: 60, y: 230, w: 120, h: 60 },
+        labels: {
+            wireAbove: 168,      // reserved band above wire
+            wireBelow: 232,      // Merge / junction labels
+            bracket: 248,        // round-trip dashed line
+            bracketLabel: 262,   // round-trip text
+            terminalLabelX: 712  // right of open boundary
+        }
+    };
+
     let state = 'IDLE';
     let pulseX = 0;
     let animationFrameId;
@@ -13,11 +29,15 @@ function initPPMUSimulation() {
     let reflectionFlash = 0;
     let resetTimeout = null;
 
-    const startX = 250;
-    const endX = 700;
-    const wireY = 200;
     const SIM_NS = 3.0;
     const TIME_SCALE = 600;
+
+    function setupHiDPI() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = LAYOUT.canvas.w * dpr;
+        canvas.height = LAYOUT.canvas.h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
 
     function updateStatus(title, text, colorClass) {
         statusTitle.innerText = title;
@@ -25,54 +45,54 @@ function initPPMUSimulation() {
         statusTitle.className = `font-bold mb-1 ${colorClass}`;
     }
 
-    function drawPulse(x, color, direction) {
-        for (let layer = 2; layer >= 0; layer--) {
-            const alpha = layer === 0 ? 1 : 0.25 + layer * 0.15;
-            const width = 40 + layer * 12;
-            ctx.globalAlpha = alpha;
+    // Localized sine packet traveling along the wire. The x coordinate
+    // advances along the line while y oscillates perpendicular to it at
+    // uniform amplitude. packetHalf is a whole multiple of half the
+    // wavelength so the packet ends exactly at zero crossings.
+    function drawTravelingSine(centerX, color, direction) {
+        const { startX, endX, y: wireY } = LAYOUT.wire;
+        const amplitude = 16;
+        const wavelength = 60;
+        const packetHalf = 90;   // 3 half-wavelengths per side
+        const k = (2 * Math.PI) / wavelength;
+
+        const layers = [
+            { alpha: 1, lineWidth: 3, blur: 14 },
+            { alpha: 0.25, lineWidth: 6, blur: 8 }
+        ];
+
+        const from = Math.max(startX, centerX - packetHalf);
+        const to = Math.min(endX, centerX + packetHalf);
+        if (to <= from) return;
+
+        ctx.save();
+        for (const layer of layers) {
+            ctx.globalAlpha = layer.alpha;
             ctx.strokeStyle = color;
-            ctx.lineWidth = 4 - layer;
+            ctx.lineWidth = layer.lineWidth;
             ctx.lineJoin = 'round';
-            ctx.beginPath();
-            for (let i = -width; i <= width; i++) {
-                const yOffset = -45 * Math.exp(-(i * i) / (width * width / 2));
-                const px = x + i * direction;
-                if (i === -width) ctx.moveTo(px, wireY + yOffset);
-                else ctx.lineTo(px, wireY + yOffset);
-            }
-            ctx.shadowBlur = layer === 0 ? 18 : 8;
+            ctx.shadowBlur = layer.blur;
             ctx.shadowColor = color;
+
+            ctx.beginPath();
+            for (let x = from; x <= to; x += 2) {
+                const dist = (x - centerX) * direction;
+                const y = wireY - amplitude * Math.sin(k * dist);
+                if (x === from) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
             ctx.stroke();
-            ctx.shadowBlur = 0;
         }
-        ctx.globalAlpha = 1;
+        ctx.restore();
     }
 
     function drawScene() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const { startX, endX, y: wireY } = LAYOUT.wire;
+        const { ppmuBox, force, sense, labels } = LAYOUT;
 
-        // Path labels
-        ctx.fillStyle = '#64748b';
-        ctx.font = '11px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('ATE Channel', 145, 42);
-        ctx.fillText('Transmission Wire', (startX + endX) / 2, wireY - 18);
-        ctx.fillText('Open Boundary', endX, wireY - 18);
+        ctx.clearRect(0, 0, LAYOUT.canvas.w, LAYOUT.canvas.h);
 
-        // Round-trip bracket
-        ctx.strokeStyle = '#475569';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([4, 4]);
-        ctx.beginPath();
-        ctx.moveTo(startX, wireY + 28);
-        ctx.lineTo(endX, wireY + 28);
-        ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '10px Inter, sans-serif';
-        ctx.fillText('Round-trip path', (startX + endX) / 2, wireY + 42);
-
-        // Reflection flash
+        // Reflection flash at the open boundary
         if (reflectionFlash > 0) {
             const alpha = reflectionFlash / 15;
             const grad = ctx.createRadialGradient(endX, wireY, 0, endX, wireY, 50);
@@ -85,17 +105,15 @@ function initPPMUSimulation() {
             reflectionFlash--;
         }
 
-        // Open boundary
-        ctx.strokeStyle = reflectionFlash > 0 ? '#facc15' : '#64748b';
-        ctx.lineWidth = 4;
+        // Round-trip bracket (dashed) below the wire
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
         ctx.beginPath();
-        ctx.moveTo(endX, wireY - 40);
-        ctx.lineTo(endX, wireY + 40);
+        ctx.moveTo(startX, labels.bracket);
+        ctx.lineTo(endX, labels.bracket);
         ctx.stroke();
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '13px Inter, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('Open Terminal (e.g., Pogo Pin)', endX - 130, wireY + 58);
+        ctx.setLineDash([]);
 
         // Wire with gradient glow
         const wireGrad = ctx.createLinearGradient(startX, wireY, endX, wireY);
@@ -112,25 +130,26 @@ function initPPMUSimulation() {
         ctx.stroke();
         ctx.shadowBlur = 0;
 
+        // Open boundary bar
+        ctx.strokeStyle = reflectionFlash > 0 ? '#facc15' : '#64748b';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(endX, wireY - 40);
+        ctx.lineTo(endX, wireY + 40);
+        ctx.stroke();
+
         // PPMU block
         ctx.fillStyle = '#1e293b';
         ctx.strokeStyle = '#475569';
         ctx.lineWidth = 2;
-        ctx.fillRect(40, 50, 210, 300);
-        ctx.strokeRect(40, 50, 210, 300);
-        ctx.fillStyle = '#e2e8f0';
-        ctx.font = 'bold 17px Inter, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('ATE Channel (PPMU)', 55, 80);
+        ctx.fillRect(ppmuBox.x, ppmuBox.y, ppmuBox.w, ppmuBox.h);
+        ctx.strokeRect(ppmuBox.x, ppmuBox.y, ppmuBox.w, ppmuBox.h);
 
         const senseActive = state === 'SENSED' || (state === 'REFLECTING' && pulseX < startX + 55);
 
         // Force block
         ctx.fillStyle = state === 'FORCING' ? '#ef4444' : '#334155';
-        ctx.fillRect(60, 110, 120, 60);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 13px Inter, sans-serif';
-        ctx.fillText('Force (Drive)', 70, 145);
+        ctx.fillRect(force.x, force.y, force.w, force.h);
 
         // Sense block
         ctx.fillStyle = senseActive ? '#22c55e' : '#334155';
@@ -138,57 +157,96 @@ function initPPMUSimulation() {
             ctx.shadowBlur = 12;
             ctx.shadowColor = '#22c55e';
         }
-        ctx.fillRect(60, 230, 120, 60);
+        ctx.fillRect(sense.x, sense.y, sense.w, sense.h);
         ctx.shadowBlur = 0;
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('Sense (Measure)', 65, 265);
 
-        // Internal wiring
+        // Internal wiring (exits at the vertical centers of the blocks)
+        const forceMidY = force.y + force.h / 2;
+        const senseMidY = sense.y + sense.h / 2;
+
         ctx.strokeStyle = state === 'FORCING' ? '#ef4444' : '#64748b';
         ctx.lineWidth = 4;
         ctx.beginPath();
-        ctx.moveTo(180, 140);
-        ctx.lineTo(startX, 140);
+        ctx.moveTo(force.x + force.w, forceMidY);
+        ctx.lineTo(startX, forceMidY);
         ctx.lineTo(startX, wireY);
         ctx.stroke();
 
         ctx.strokeStyle = state === 'REFLECTING' || state === 'SENSED' ? '#22c55e' : '#64748b';
         ctx.beginPath();
-        ctx.moveTo(180, 260);
-        ctx.lineTo(startX, 260);
+        ctx.moveTo(sense.x + sense.w, senseMidY);
+        ctx.lineTo(startX, senseMidY);
         ctx.lineTo(startX, wireY);
         ctx.stroke();
 
-        // Junction
+        // Junction dot
         ctx.fillStyle = '#cbd5e1';
         ctx.beginPath();
         ctx.arc(startX, wireY, 7, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '10px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('Merge', startX, wireY + 22);
 
+        // Traveling sine packet
         if (state === 'FORCING' || state === 'REFLECTING') {
             const color = state === 'FORCING' ? '#ef4444' : '#22c55e';
             const dir = state === 'FORCING' ? 1 : -1;
-            drawPulse(pulseX, color, dir);
+            drawTravelingSine(pulseX, color, dir);
         }
+
+        // --- Labels (drawn last so text always sits on top) ---
+
+        // Band above the wire
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Transmission Wire', (startX + endX) / 2, labels.wireAbove);
+        ctx.textAlign = 'right';
+        ctx.fillText('Open Boundary', endX - 8, labels.wireAbove);
+
+        // Junction label
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Merge', startX, labels.wireBelow);
+
+        // Round-trip bracket label
+        ctx.fillText('Round-trip path', (startX + endX) / 2, labels.bracketLabel);
+
+        // Open terminal label, right of the boundary bar (two lines to fit)
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Open Terminal', labels.terminalLabelX, wireY - 4);
+        ctx.fillText('(e.g., Pogo Pin)', labels.terminalLabelX, wireY + 12);
+
+        // PPMU box title, centered in the box
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = 'bold 17px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('ATE Channel (PPMU)', ppmuBox.x + ppmuBox.w / 2, 80);
+
+        // Force / Sense labels, centered in their blocks
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 13px Inter, sans-serif';
+        ctx.fillText('Force (Drive)', force.x + force.w / 2, forceMidY + 5);
+        ctx.fillText('Sense (Measure)', sense.x + sense.w / 2, senseMidY + 5);
+
+        ctx.textAlign = 'left';
     }
 
     function animate(timestamp) {
+        const { startX, endX } = LAYOUT.wire;
         if (!animStartTime) animStartTime = timestamp;
         const elapsed = timestamp - animStartTime;
         const oneWayMs = (SIM_NS / 2) * TIME_SCALE;
-        const roundTripMs = SIM_NS * TIME_SCALE;
 
         let simTimeNs = Math.min(elapsed / TIME_SCALE, SIM_NS).toFixed(2);
         liveTimer.innerText = `${simTimeNs} ns`;
 
+        // A propagating wave travels at constant velocity, so position
+        // interpolation is linear (no easing).
         if (state === 'FORCING') {
             const progress = Math.min(elapsed / oneWayMs, 1);
-            const eased = easeInOut(progress);
-            pulseX = startX + (endX - startX) * eased;
+            pulseX = startX + (endX - startX) * progress;
             if (progress >= 1) {
                 state = 'REFLECTING';
                 reflectionFlash = 15;
@@ -197,18 +255,17 @@ function initPPMUSimulation() {
             }
         } else if (state === 'REFLECTING') {
             const progress = Math.min(elapsed / oneWayMs, 1);
-            const eased = easeInOut(progress);
-            pulseX = endX - (endX - startX) * eased;
+            pulseX = endX - (endX - startX) * progress;
             if (progress >= 1) {
                 state = 'SENSED';
                 liveTimer.classList.add('hidden');
                 updateStatus('Signal Sensed', 'Sense detected return pulse — round-trip time recorded for calibration.', 'text-blue-600');
-                fireBtn.disabled = false;
-                fireBtn.classList.remove('opacity-50', 'cursor-not-allowed');
                 clearTimeout(resetTimeout);
                 resetTimeout = setTimeout(() => {
                     state = 'IDLE';
                     updateStatus('Idle', 'Press "Fire Pulse" to run another TDR measurement.', 'text-blue-900');
+                    fireBtn.disabled = false;
+                    fireBtn.classList.remove('opacity-50', 'cursor-not-allowed');
                     drawScene();
                 }, 2000);
             }
@@ -221,10 +278,10 @@ function initPPMUSimulation() {
     }
 
     fireBtn.addEventListener('click', () => {
-        if (state === 'FORCING' || state === 'REFLECTING') return;
+        if (state !== 'IDLE') return;
         clearTimeout(resetTimeout);
         state = 'FORCING';
-        pulseX = startX;
+        pulseX = LAYOUT.wire.startX;
         animStartTime = 0;
         reflectionFlash = 0;
         fireBtn.disabled = true;
@@ -236,5 +293,6 @@ function initPPMUSimulation() {
         requestAnimationFrame(animate);
     });
 
+    setupHiDPI();
     drawScene();
 }

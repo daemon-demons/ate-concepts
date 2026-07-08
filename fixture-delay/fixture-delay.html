@@ -100,7 +100,7 @@
 
             <div class="bg-slate-900 p-4 md:p-8 rounded-2xl shadow-xl">
                 <div class="relative max-w-3xl mx-auto mb-6">
-                    <canvas id="ppmu_canvas" width="800" height="400"></canvas>
+                    <canvas id="ppmu_canvas" width="800" height="400" role="img" aria-label="PPMU TDR pulse animation: a sine-wave pulse travels from the ATE channel down the transmission wire, reflects off the open boundary, and returns to the Sense circuit"></canvas>
                     <div id="ppmu_timer" class="sim-timer hidden">0.00 ns</div>
                 </div>
 
@@ -108,7 +108,7 @@
                     <button id="ppmu_btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-colors active:scale-95 whitespace-nowrap">
                         ▶ Fire Pulse
                     </button>
-                    <div class="flex-1 border-l-4 border-blue-500 pl-4 bg-blue-50 p-4 rounded-r-lg w-full">
+                    <div class="flex-1 border-l-4 border-blue-500 pl-4 bg-blue-50 p-4 rounded-r-lg w-full" aria-live="polite">
                         <h3 class="font-bold text-blue-900 mb-1" id="ppmu_title">Idle</h3>
                         <p class="text-sm text-blue-800" id="ppmu_desc">Press "Fire Pulse" to see how the Force and Sense circuits utilize the same wire.</p>
                     </div>
