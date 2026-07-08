@@ -1,0 +1,113 @@
+body {
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* Hub nav */
+.hub-nav-link {
+    transition: background-color 0.15s ease;
+}
+
+.hub-nav-link:hover {
+    background-color: rgb(30 41 59);
+}
+
+#mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+#mobile-menu.open {
+    max-height: 24rem;
+}
+
+/* Module cards */
+.module-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.module-card--live:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1);
+}
+
+.module-card--soon {
+    opacity: 0.72;
+}
+
+/* Provider logos */
+.provider-logo-wrap {
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.provider-logo {
+    max-height: 3rem;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.provider-initials {
+    display: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: white;
+}
+
+.provider-logo-wrap.fallback .provider-logo {
+    display: none;
+}
+
+.provider-logo-wrap.fallback .provider-initials {
+    display: flex;
+}
+
+/* Hero image */
+.hero-img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+/* Architecture flow arrows */
+.flow-arrow {
+    color: rgb(148 163 184);
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+    .flow-arrow--down {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .flow-arrow--right {
+        display: none;
+    }
+}
+
+/* Tag pills */
+.tag-pill {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* Accent borders for module cards */
+.accent-blue   { border-left: 4px solid #3b82f6; }
+.accent-green  { border-left: 4px solid #22c55e; }
+.accent-purple { border-left: 4px solid #a855f7; }
+.accent-orange { border-left: 4px solid #f97316; }
+.accent-indigo { border-left: 4px solid #6366f1; }
+.accent-teal   { border-left: 4px solid #14b8a6; }
