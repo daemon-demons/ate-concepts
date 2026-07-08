@@ -51,29 +51,34 @@
 
     <!-- Hero -->
     <header class="hero-plane">
-        <div class="hero-plane__media" aria-hidden="true">
-            <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Semiconductor_manufacturing_equipment.jpg/1280px-Semiconductor_manufacturing_equipment.jpg"
-                alt=""
-                loading="eager"
-                referrerpolicy="no-referrer"
-                onerror="this.style.display='none'">
-        </div>
-        <div class="hero-plane__overlay"></div>
-        <div class="hero-plane__grid"></div>
+        <div class="hero-plane__grid" aria-hidden="true"></div>
         <div class="hero-plane__content">
-            <p class="hero-kicker hero-enter">Semiconductor production test</p>
-            <h1 class="hero-brand hero-enter">ATE Concepts Hub</h1>
-            <p class="hero-headline hero-enter hero-enter--delay">Production test literacy for silicon engineers</p>
-            <p class="hero-support hero-enter hero-enter--delay">
-                Computer-controlled instrumentation that forces stimuli on a DUT and measures response — screening devices at wafer sort, final test, and system-level test.
-            </p>
-            <div class="hero-cta-group hero-enter hero-enter--delay-2">
-                <a href="#modules" class="hero-cta-primary">
-                    Explore learning modules
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </a>
-                <a href="#what-is-ate" class="hero-cta-secondary">What is ATE?</a>
+            <div class="hero-layout">
+                <div class="hero-copy">
+                    <p class="hero-kicker hero-enter">Semiconductor production test</p>
+                    <h1 class="hero-brand hero-enter">ATE Concepts Hub</h1>
+                    <p class="hero-headline hero-enter hero-enter--delay">Production test literacy for silicon engineers</p>
+                    <p class="hero-support hero-enter hero-enter--delay">
+                        Computer-controlled instrumentation that forces stimuli on a DUT and measures response — screening devices at wafer sort, final test, and system-level test.
+                    </p>
+                    <div class="hero-cta-group hero-enter hero-enter--delay-2">
+                        <a href="#modules" class="hero-cta-primary">
+                            Explore learning modules
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </a>
+                        <a href="#what-is-ate" class="hero-cta-secondary">What is ATE?</a>
+                    </div>
+                </div>
+                <figure class="hero-illust hero-enter hero-enter--delay-2">
+                    <img
+                        src="global-src/assets/ate.svg"
+                        alt="ATE path diagram: tester and PPMU through pogo pins and DIB to the DUT socket"
+                        class="hero-illust__img"
+                        width="1000"
+                        height="450"
+                        loading="eager">
+                    <figcaption class="hero-illust__caption">ATE · Pogo · DIB · DUT signal path</figcaption>
+                </figure>
             </div>
         </div>
     </header>
