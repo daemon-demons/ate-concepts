@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATE Fixture Delay Calibration - Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span class="font-bold text-xl tracking-tight">ATE Concepts Hub</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="flex items-baseline space-x-4 text-sm font-medium">
+                        <a href="#intro" class="hover:bg-slate-800 px-3 py-2 rounded-md">Introduction</a>
+                        <a href="#causes" class="hover:bg-slate-800 px-3 py-2 rounded-md">Causes &amp; Impacts</a>
+                        <a href="#sim-ppmu" class="hover:bg-slate-800 px-3 py-2 rounded-md text-blue-300">PPMU</a>
+                        <a href="#sim-math" class="hover:bg-slate-800 px-3 py-2 rounded-md text-blue-300">FXDL</a>
+                        <a href="#advanced" class="hover:bg-slate-800 px-3 py-2 rounded-md text-purple-300">Timing Compensation</a>
+                        <a href="#references" class="hover:bg-slate-800 px-3 py-2 rounded-md">References</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-slate-900 text-white border-b border-slate-700">
+        <div class="max-w-6xl mx-auto px-4 py-6 md:py-8 text-center">
+            <h1 class="text-2xl md:text-3xl font-semibold">Fixture Delay Calibration</h1>
+            <p class="text-sm md:text-base text-slate-400 mt-1">ATE signal propagation, PPMU reflectometry, and calibration math</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-24">
+
+        <section id="intro" class="intro-layout">
+            <div class="intro-text">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 flex flex-wrap items-center gap-3">
+                    <span class="bg-blue-100 text-blue-700 p-2 rounded-lg text-sm">Theory</span>
+                    What is Fixture Delay?
+                </h2>
+                <div class="prose prose-slate text-base md:text-lg text-slate-600">
+                    <p>A <strong>fixture delay</strong> (<strong>t<sub>fixture</sub></strong>) is the time required for test signals to travel from the tester's pogo pins to the Device Under Test (DUT) through the Device Interface Board (DIB).</p>
+                    <p>This physical distance creates a time lag that, if ignored, severely impacts the accuracy of measurements. Modern testers, such as the Advantest V93K, measure t<sub>fixture</sub> via TDR and store it per-pin in SmarTest channel attributes (<code>ch_attributes</code>) so the test program can compensate automatically.</p>
+                </div>
+            </div>
+            <figure class="intro-figure">
+                <img src="src/fxdl-explained.png" alt="Fixture delay signal path diagram" class="intro-diagram">
+            </figure>
+        </section>
+
+        <section id="causes" class="space-y-12">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Causes &amp; Measurement Impacts</h2>
+                <p class="text-slate-600">Various physical and environmental factors introduce delays, wreaking havoc on high-frequency and strict-timing test requirements.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">Primary Causes</h3>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li><strong class="text-slate-800">Cable Length &amp; Type:</strong> Longer cables increase propagation time. Coaxial vs. ribbon cables have different propagation characteristics.</li>
+                        <li><strong class="text-slate-800">Connectors &amp; Switching Matrices:</strong> Multiplexers routing signals and physical connectors add resistance, capacitance, and path time.</li>
+                        <li><strong class="text-slate-800">Test Fixture Design:</strong> Built-in relays, attenuators, or impedance matching networks inside the path.</li>
+                        <li><strong class="text-slate-800">Environmental:</strong> Interconnect parasitics and temperature variations altering electrical characteristics.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">Impact on Measurements</h3>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li><strong class="text-red-600">Timing Inaccuracy &amp; Errors:</strong> Critical failures in high-frequency testing and strict timing requirement tests affecting yield.</li>
+                        <li><strong class="text-orange-600">Phase and Frequency Shifts:</strong> Crucial RF testing is degraded by phase shifts and frequency deviations.</li>
+                        <li><strong class="text-blue-600">Impedance Mismatches &amp; Distortion:</strong> Leads to signal reflections, degraded accuracy, and distorted rise/fall times.</li>
+                        <li><strong class="text-purple-600">Timing Skew:</strong> Synchronization issues between different channels, making multi-channel correlation challenging.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200">
+
+        <section id="sim-ppmu" class="space-y-6">
+            <div class="max-w-4xl">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2 flex items-center gap-3">
+                    <span class="bg-green-100 text-green-700 p-2 rounded-lg text-sm">Interactive Step 1</span>
+                    The PPMU Single-Pin Setup
+                </h2>
+                <p class="text-slate-600">
+                    How does the tester measure delay without a loopback cable? It uses Time Domain Reflectometry (TDR) through the Per-Pin Measurement Unit (PPMU). Because the <strong>Force (Drive)</strong> and <strong>Sense (Measure)</strong> circuits share the exact same transmission wire, a driven pulse will bounce off an open boundary and reflect back to the Sense circuit.
+                </p>
+            </div>
+
+            <div class="bg-slate-900 p-4 md:p-8 rounded-2xl shadow-xl">
+                <div class="relative max-w-3xl mx-auto mb-6">
+                    <canvas id="ppmu_canvas" width="800" height="400"></canvas>
+                    <div id="ppmu_timer" class="sim-timer hidden">0.00 ns</div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl flex flex-col md:flex-row items-center gap-6 max-w-3xl mx-auto">
+                    <button id="ppmu_btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-colors active:scale-95 whitespace-nowrap">
+                        ▶ Fire Pulse
+                    </button>
+                    <div class="flex-1 border-l-4 border-blue-500 pl-4 bg-blue-50 p-4 rounded-r-lg w-full">
+                        <h3 class="font-bold text-blue-900 mb-1" id="ppmu_title">Idle</h3>
+                        <p class="text-sm text-blue-800" id="ppmu_desc">Press "Fire Pulse" to see how the Force and Sense circuits utilize the same wire.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sim-math" class="space-y-6">
+            <div class="max-w-4xl">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2 flex items-center gap-3">
+                    <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg text-sm">Interactive Step 2</span>
+                    The Mathematics of Calibration
+                </h2>
+                <p class="text-slate-600">
+                    To isolate t<sub>fixture</sub>, the tester takes two round-trip measurements: <strong>t<sub>p</sub></strong> (round-trip to the pogo pin) and <strong>t<sub>s</sub></strong> (round-trip to the empty DUT socket).
+                </p>
+            </div>
+
+            <div class="bg-slate-200 p-4 md:p-8 rounded-2xl shadow-inner border border-slate-300">
+                <div class="flex flex-col lg:flex-row gap-8 items-start">
+                    <div class="flex-shrink-0 flex flex-col items-center w-full lg:w-[400px]">
+                        <div class="w-full mb-4 bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                            <label class="block text-sm font-bold text-slate-700 mb-2 flex justify-between">
+                                <span>Adjust DIB (Load Board) Physical Delay:</span>
+                                <span id="math_slider_val" class="text-blue-600">1.0 ns</span>
+                            </label>
+                            <input type="range" id="math_slider" min="0.5" max="3.0" step="0.1" value="1.0" class="w-full accent-blue-600">
+                        </div>
+                        <div class="relative shadow-md rounded-xl w-full">
+                            <canvas id="math_canvas" width="400" height="500" class="canvas-light"></canvas>
+                            <div id="math_timer" class="sim-timer hidden">0.00 ns</div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 w-full flex flex-col gap-4">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                            <h3 class="font-bold text-slate-800 mb-4 text-lg border-b pb-2">Run Measurements</h3>
+                            <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                                <button id="math_btn_tp" class="flex-1 bg-slate-700 hover:bg-slate-800 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                                    <span>1. Measure t<sub>p</sub></span>
+                                </button>
+                                <button id="math_btn_ts" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                                    <span>2. Measure t<sub>s</sub></span>
+                                </button>
+                            </div>
+                            <div id="math_status" class="text-sm text-slate-600 italic h-10 flex items-center">
+                                Waiting to start measurements. Measure t_p first to establish the baseline.
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex-1 flex flex-col">
+                            <h3 class="font-bold text-slate-800 mb-4 text-lg border-b pb-2">Calculation Dashboard</h3>
+
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center">
+                                    <div class="text-xs text-slate-500 font-semibold mb-1">t<sub>p</sub> (Round-trip Pogo)</div>
+                                    <div class="text-2xl font-mono text-slate-800" id="math_val_tp">-- ns</div>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center">
+                                    <div class="text-xs text-slate-500 font-semibold mb-1">t<sub>s</sub> (Round-trip Socket)</div>
+                                    <div class="text-2xl font-mono text-slate-800" id="math_val_ts">-- ns</div>
+                                </div>
+                            </div>
+
+                            <div id="math_result_box" class="math-box bg-slate-50 border-2 border-dashed border-slate-300 p-5 rounded-xl mt-auto opacity-50">
+                                <div class="text-sm font-bold text-slate-500 tracking-wider mb-2 text-center">t<sub>fixture</sub></div>
+                                <div class="text-xl md:text-2xl text-center font-mono text-slate-800 my-4">
+                                    t<sub>fixture</sub> = (t<sub>s</sub> / 2) &minus; (t<sub>p</sub> / 2)
+                                </div>
+                                <div class="text-center text-md md:text-lg font-mono text-blue-700 min-h-[3rem]" id="math_steps"></div>
+                                <div class="text-center text-3xl font-bold font-mono text-blue-600 mt-4 h-12 flex items-center justify-center bg-blue-100 rounded-lg py-2" id="math_final">--</div>
+                                <p class="text-xs text-slate-500 text-center mt-3">Stored per-pin in SmarTest channel attributes (<code>ch_attributes</code>).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200">
+
+        <section id="advanced" class="space-y-6">
+            <div class="max-w-5xl bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                    <span class="bg-purple-100 text-purple-700 p-2 rounded-lg text-sm">Application</span>
+                    V93K Timing Advance &amp; t<sub>fixture</sub> Compensation
+                </h2>
+
+                <p class="text-slate-600 mb-6">
+                    Once t<sub>fixture</sub> is measured, the ATE applies it so programmed timing aligns at the DUT pin rather than at the pogo pins.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-slate-800 text-lg mb-2">Timing Reference (t = 0 ns)</h4>
+                        <p class="text-sm text-slate-600">
+                            Timing can be referred to the <strong>pogo pins</strong> (without fixture compensation) or the <strong>DUT socket</strong> (with compensation). The V93000 calibrates the internal path to the pogo pin; when t<sub>fixture</sub> is loaded from <code>ch_attributes</code>, the DUT pin becomes the timing reference.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-slate-800 text-lg mb-2">Timing Advance</h4>
+                        <p class="text-sm text-slate-600">
+                            Because of the physical delay between pogo pins and the DUT socket, the ATE generates drive signals <strong>in advance</strong> of the programmed transition by t<sub>fixture</sub>, so the edge arrives at the DUT exactly on time.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-slate-800 text-lg mb-2">Driver / Receiver Compensation</h4>
+                        <p class="text-sm text-slate-600">
+                            The same t<sub>fixture</sub> is applied to the internal <strong>driver</strong> (earlier) and <strong>receiver</strong> (later). The net timing offset between driver and receiver equals <strong>2 &times; t<sub>fixture</sub></strong>. Example: t<sub>fixture</sub> = 1.85 ns &rarr; &Delta;t &asymp; 3.7 ns.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="references" class="max-w-3xl mx-auto">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">References</h2>
+                <ol class="list-decimal list-inside space-y-3 text-slate-600 text-sm">
+                    <li>
+                        Walther, S. &amp; Hu, Y. &mdash;
+                        <a href="https://www3.advantest.com/documents/11348/d0bf6389-2381-4930-9281-0069c1ea2b86" class="text-blue-600 hover:underline" target="_blank" rel="noopener">Solving MIPI D-PHY Transmitter Test Challenges</a>
+                        (Advantest V93000) &mdash; fixture delay calibration sections
+                    </li>
+                    <li>Advantest &mdash; V93000 Online Documentation (TDR / fixture delay calibration)</li>
+                </ol>
+            </div>
+        </section>
+
+        <footer class="text-center text-slate-500 py-8 border-t border-slate-200 mt-12">
+            <p>Interactive ATE Training Module &bull; Automatically adjusts timing zeros to compensate for physical hardware latency.</p>
+        </footer>
+    </main>
+
+    <script src="js/utils.js"></script>
+    <script src="js/ppmu-simulation.js"></script>
+    <script src="js/math-simulation.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
