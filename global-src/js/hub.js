@@ -7,7 +7,8 @@ const PROVIDERS = [
         name: 'Advantest',
         specialty: 'SoC, memory, and SLT testers — V93000, T2000. ~50% global ATE share.',
         href: 'https://www.advantest.com/',
-        logo: 'https://static.cdnlogo.com/logos/a/91/advantest.svg',
+        logo: 'https://www.advantest.com/img/common/logo-advantest.svg',
+        logoScale: 0.7,
         initials: 'ADV',
         color: '#1e40af'
     },
@@ -15,7 +16,8 @@ const PROVIDERS = [
         name: 'Teradyne',
         specialty: 'UltraFLEX, J750 SoC testers. Acquired Eagle Test Systems & LitePoint.',
         href: 'https://www.teradyne.com/',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Teradyne_logo_2014.svg/512px-Teradyne_logo_2014.svg.png',
+        logo: 'https://cdn-ilehcci.nitrocdn.com/eoGmUZCMaguCqwHURWCEmTNzNhuuAlBj/assets/images/optimized/rev-3fc846c/www.teradyne.com/wp-content/uploads/2025/07/t-logo-color-for-display.png',
+        logoScale: 0.75,
         initials: 'TER',
         color: '#0f766e'
     },
@@ -23,7 +25,8 @@ const PROVIDERS = [
         name: 'Eagle Test Systems',
         specialty: 'Analog & mixed-signal ETS platforms — now a Teradyne company.',
         href: 'https://www.teradyne.com/',
-        logo: null,
+        logo: 'https://www.sec.gov/Archives/edgar/data/1290096/000095013406000873/c00595a1c0059500.gif',
+        logoScale: 1.2,
         initials: 'ETS',
         color: '#b45309'
     },
@@ -31,7 +34,8 @@ const PROVIDERS = [
         name: 'Cohu',
         specialty: 'Test handlers, contactors, thermal management, and Diamondx testers.',
         href: 'https://www.cohu.com/',
-        logo: null,
+        logo: 'https://www.cohu.com/wp-content/uploads/2024/01/Cohu-Standard-logo-registered-trademark-300x70px-300x70.png',
+        logoScale: 0.8,
         initials: 'COH',
         color: '#7c3aed'
     },
@@ -39,7 +43,8 @@ const PROVIDERS = [
         name: 'Chroma ATE',
         specialty: 'Power semiconductor, EV, and SiC/GaN device test systems.',
         href: 'https://www.chromaate.com/',
-        logo: null,
+        logo: 'https://www.chromaate.com/images/all/logo.svg',
+        logoScale: 0.8,
         initials: 'CHR',
         color: '#dc2626'
     },
@@ -47,7 +52,7 @@ const PROVIDERS = [
         name: 'NI (Emerson)',
         specialty: 'PXI modular instrumentation — bench to production, Austin TX.',
         href: 'https://www.ni.com/',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/National_Instruments_logo_2020.svg/512px-National_Instruments_logo_2020.svg.png',
+        logo: 'https://www.emerson.com/is/image/emerson/logo?fmt=webp-alpha&qlt=95',
         initials: 'NI',
         color: '#059669'
     },
@@ -55,7 +60,8 @@ const PROVIDERS = [
         name: 'Keysight',
         specialty: 'Parametric wafer test, high-frequency, and semiconductor characterization.',
         href: 'https://www.keysight.com/',
-        logo: null,
+        logo: 'https://www.keysight.com/content/dam/keysight/en/img/gnav/keysight-logo.svg',
+        logoScale: 1.4,
         initials: 'KEY',
         color: '#e11d48'
     },
@@ -63,7 +69,8 @@ const PROVIDERS = [
         name: 'SPEA',
         specialty: 'MEMS, sensor, and mixed-signal ATE for specialized applications.',
         href: 'https://www.spea.com/',
-        logo: null,
+        logo: 'https://www.spea.com/wp-content/themes/spea/images/logo.png',
+        logoScale: 0.8,
         initials: 'SPE',
         color: '#2563eb'
     }
@@ -167,8 +174,10 @@ function renderModuleCard(mod) {
 
 function renderProviderCard(p) {
     const wrapClass = p.logo ? 'provider-logo-wrap mb-4' : 'provider-logo-wrap fallback mb-4';
+    const scale = typeof p.logoScale === 'number' ? p.logoScale : 1;
+    const scaleStyle = scale !== 1 ? ` style="transform:scale(${scale})"` : '';
     const logoHtml = p.logo
-        ? `<img src="${p.logo}" alt="${p.name} logo" class="provider-logo" loading="lazy" referrerpolicy="no-referrer" onerror="handleLogoError(this)">`
+        ? `<img src="${p.logo}" alt="${p.name} logo" class="provider-logo"${scaleStyle} loading="lazy" referrerpolicy="no-referrer" onerror="handleLogoError(this)">`
         : '';
     return `
         <a href="${p.href}" target="_blank" rel="noopener noreferrer"
