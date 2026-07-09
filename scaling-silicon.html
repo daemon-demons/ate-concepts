@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scaling Silicon &mdash; Bench to ATE | ATE Concepts Hub</title>
+    <meta name="description" content="From silicon characterization to ATE industrialization: complementary roles, TTM acceleration, and bench-to-ATE program transfer.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global-src/css/site.css">
+</head>
+<body class="article-page text-slate-800">
+
+    <nav class="hub-nav text-white sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-14">
+                <a href="index.html" class="flex items-center gap-2">
+                    <span class="font-mono text-cyan-400 text-xs tracking-widest">ATE</span>
+                    <span class="font-semibold text-base tracking-tight">Concepts Hub</span>
+                </a>
+
+                <div class="hidden lg:flex items-baseline space-x-1 text-sm font-medium">
+                    <a href="index.html" class="hub-nav-link px-3 py-2 rounded-md">Hub</a>
+                    <a href="#intro" class="hub-nav-link px-3 py-2 rounded-md">Intro</a>
+                    <a href="#characterization" class="hub-nav-link px-3 py-2 rounded-md">Characterization</a>
+                    <a href="#production-ate" class="hub-nav-link px-3 py-2 rounded-md">Production ATE</a>
+                    <a href="#synergy" class="hub-nav-link px-3 py-2 rounded-md">Synergy</a>
+                    <a href="#ttm" class="hub-nav-link px-3 py-2 rounded-md">TTM</a>
+                    <a href="#industrialization" class="hub-nav-link px-3 py-2 rounded-md">Industrialization</a>
+                    <a href="#cheatsheet" class="hub-nav-link px-3 py-2 rounded-md text-cyan-300">Reference</a>
+                </div>
+
+                <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-md hover:bg-slate-800" aria-label="Toggle menu" aria-expanded="false">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="lg:hidden hidden pb-4" inert>
+                <div class="flex flex-col space-y-1 text-sm font-medium">
+                    <a href="index.html" class="hub-nav-link px-3 py-2 rounded-md">Hub</a>
+                    <a href="#intro" class="hub-nav-link px-3 py-2 rounded-md">Intro</a>
+                    <a href="#characterization" class="hub-nav-link px-3 py-2 rounded-md">Characterization</a>
+                    <a href="#production-ate" class="hub-nav-link px-3 py-2 rounded-md">Production ATE</a>
+                    <a href="#synergy" class="hub-nav-link px-3 py-2 rounded-md">Synergy</a>
+                    <a href="#ttm" class="hub-nav-link px-3 py-2 rounded-md">TTM</a>
+                    <a href="#industrialization" class="hub-nav-link px-3 py-2 rounded-md">Industrialization</a>
+                    <a href="#cheatsheet" class="hub-nav-link px-3 py-2 rounded-md text-cyan-300">Reference</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-hero">
+        <div class="article-hero__inner">
+            <nav class="article-breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html">Hub</a>
+                <span class="article-breadcrumb__sep">/</span>
+                <span>Scaling Silicon</span>
+            </nav>
+            <h1 class="article-hero__title">Scaling Silicon: The Bridge Between Bench Testing and ATE</h1>
+            <p class="article-hero__subtitle">From silicon characterization to production test industrialization &mdash; how bench and ATE form sequential layers in a single test strategy.</p>
+        </div>
+    </header>
+
+    <main class="article-main">
+
+        <section id="intro" class="article-section">
+            <p class="section-kicker">Overview</p>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Introduction</h2>
+            <p class="article-section__lead">
+                Every SoC and processor follows a predictable test trajectory: electrical behavior is characterized on first silicon, test definitions are frozen, and production ATE screens every unit at volume. Bench and ATE are not alternatives &mdash; they are complementary capabilities in the same engineering flow.
+            </p>
+
+            <figure class="article-figure article-wide">
+                <img src="global-src/assets/silicon-lifecycle.svg" alt="Silicon test lifecycle flow from tape-out and first silicon through bench characterization, ATE program development, HVM multisite screening, and yield binning" width="1000" height="220" loading="lazy">
+                <figcaption class="article-figure__caption">NPI &rarr; HVM silicon test lifecycle</figcaption>
+            </figure>
+
+            <div class="article-prose">
+                <p>
+                    During new product introduction (NPI), design validation engineers bring up die on evaluation boards, sweep parametric limits, and debug functional failures with scopes, source-measure units, and protocol analyzers. Once limits are proven and correlated, production test engineers industrialize those definitions on ATE &mdash; codifying voltage levels, timing sets, and pass/fail criteria into a test program that runs on multisite handlers at wafer sort and final test.
+                </p>
+                <p>
+                    The handoff between these environments is where most schedule risk lives. A test strategy that treats bench and ATE as a relay &mdash; not a rivalry &mdash; reduces correlation surprises, accelerates yield learning, and protects time-to-market.
+                </p>
+            </div>
+
+            <div class="key-insight">
+                <strong>Executive takeaway:</strong> Bench defines <em>what</em> to measure and <em>why</em> a device fails. ATE applies those definitions to <em>every</em> unit that ships.
+            </div>
+
+            <div class="glossary-box">
+                <div class="glossary-box__title">Key terms</div>
+                <dl>
+                    <div>
+                        <dt>DUT</dt>
+                        <dd>Device Under Test &mdash; the silicon die or packaged part being electrically exercised.</dd>
+                    </div>
+                    <div>
+                        <dt>NPI</dt>
+                        <dd>New Product Introduction &mdash; the phase from first silicon through design validation and test program readiness.</dd>
+                    </div>
+                    <div>
+                        <dt>HVM</dt>
+                        <dd>High-Volume Manufacturing &mdash; production-scale test with handlers, probers, and multisite parallelism.</dd>
+                    </div>
+                    <div>
+                        <dt>Yield</dt>
+                        <dd>Percentage of units passing production screens; bin maps reveal process and test health.</dd>
+                    </div>
+                    <div>
+                        <dt>Correlation</dt>
+                        <dd>Agreement between bench and ATE measurements on the same golden device within defined tolerance.</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+
+        <section id="characterization" class="article-section">
+            <p class="section-kicker">NPI &amp; bring-up</p>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Lab Characterization &amp; Bench Debug</h2>
+            <p class="article-section__lead">
+                First silicon and prototype boards demand flexibility: ad-hoc probing, instrument swaps, and deep visibility into analog and digital behavior before any production fixture exists.
+            </p>
+
+            <figure class="article-figure article-wide">
+                <img src="global-src/assets/bench-characterization.svg" alt="Bench characterization setup with SMU, oscilloscope, and protocol analyzer connected to a socketed SoC on an evaluation board" width="1000" height="450" loading="lazy">
+                <figcaption class="article-figure__caption">Single-site evaluation board &mdash; parametric and functional access</figcaption>
+            </figure>
+
+            <div class="article-prose">
+                <p>
+                    On the bench, engineers characterize IDD profiles, establish voltage and timing margins, and validate high-speed I/O with real instruments. A socketed DUT on a characterization loadboard provides direct BNC and probe access that production DIBs cannot replicate. This is where parametric limits &mdash; minimum operating voltage, maximum leakage, Fmax boundaries &mdash; are established and documented.
+                </p>
+                <p>
+                    Bench strength is depth, not throughput. Setup variance between engineers, manual cable routing, and single-site pacing make the lab unsuitable for manufacturing screen. That constraint is intentional: the goal is electrical understanding, not cost-per-part economics.
+                </p>
+                <ul>
+                    <li><strong>Strengths:</strong> Ad-hoc debug, waveform capture, root-cause analysis, design feedback</li>
+                    <li><strong>Limits:</strong> Low throughput, setup-dependent repeatability, engineer-paced execution</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="production-ate" class="article-section">
+            <p class="section-kicker">Industrialization</p>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Production ATE &amp; High-Volume Screen</h2>
+            <p class="article-section__lead">
+                ATE replaces discrete bench instruments with integrated pin electronics &mdash; forcing levels, applying digital patterns, and measuring responses with deterministic, calibrated timing at the DUT pin.
+            </p>
+
+            <figure class="article-figure article-wide">
+                <img src="global-src/assets/ate.svg" alt="ATE signal path from tester and PPMU through pogo pins and device interface board to socketed DUT" width="1000" height="450" loading="lazy">
+                <figcaption class="article-figure__caption">Production path &mdash; tester &rarr; pogo &rarr; DIB &rarr; DUT</figcaption>
+            </figure>
+
+            <div class="article-prose">
+                <p>
+                    On platforms such as Advantest V93000 or Teradyne UltraFLEX, pin electronics deliver stimuli and capture responses in nanoseconds. A custom loadboard routes tester channels to the DUT socket; a handler or prober presents parts for contact. The test program &mdash; patterns, levels, timing sets, and limits &mdash; executes identically on every index, every site, every lot.
+                </p>
+                <p>
+                    This rigidity is a feature. Production test trades bench flexibility for repeatability, multisite parallelism, and cost-per-part economics. Fixture delay, pogo parasitics, and ground bounce become first-class design constraints &mdash; not afterthoughts.
+                </p>
+                <ul>
+                    <li><strong>Strengths:</strong> Deterministic timing, multisite throughput, SPC-ready data, automated binning</li>
+                    <li><strong>Limits:</strong> Fixed loadboard topology, limited ad-hoc debug, correlation dependency on bench golden data</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="synergy" class="article-section">
+            <p class="section-kicker">Test flow</p>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Complementary Roles in the Test Flow</h2>
+            <p class="article-section__lead">
+                Bench and ATE operate in a closed engineering loop: characterize, codify, screen, escalate, and refine.
+            </p>
+
+            <figure class="article-figure article-wide">
+                <img src="global-src/assets/feedback-loop.svg" alt="Engineering feedback loop between bench characterization, frozen test specification, ATE production screening, and failure data escalation back to bench root-cause analysis" width="1000" height="420" loading="lazy">
+                <figcaption class="article-figure__caption">Bench &harr; ATE engineering feedback loop</figcaption>
+            </figure>
+
+            <div class="article-prose">
+                <p>
+                    The division of responsibility is clean. ATE answers <strong>what fails</strong> &mdash; bin maps, yield trends, site-to-site variation, and production escapes. Bench answers <strong>why it fails</strong> &mdash; silicon debug, margin analysis, and design-of-experiment on failing units pulled from the line.
+                </p>
+                <p>
+                    When yield drops or a new failure mode appears in HVM, production test isolates the failing bin and returns units to the lab. Bench engineers reproduce the failure, identify root cause, and update limits or test coverage. The revised test program flows back to ATE. This loop is the operational backbone of mature silicon organizations.
+                </p>
+            </div>
+
+            <div class="key-insight">
+                <strong>Operational model:</strong> ATE is the production sensor. Bench is the diagnostic instrument. Neither replaces the other.
+            </div>
+        </section>
+
+        <section id="ate-advantages" class="article-section">
+            <p class="section-kicker">Scale</p>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Where ATE Delivers Scale</h2>
+            <p class="article-section__lead">
+                Three structural advantages make ATE indispensable once silicon moves beyond NPI into HVM.
+            </p>
+
+            <figure class="article-figure article-wide">
+                <img src="global-src/assets/multisite-ate.svg" alt="Comparison of single-site bench setup versus 16-site parallel ATE handler configuration on one test head" width="1000" height="400" loading="lazy">
+                <figcaption class="article-figure__caption">Single-site bench vs. multisite ATE throughput</figcaption>
+            </figure>
+
+            <div class="grid md:grid-cols-3 gap-4 mt-6">
+                <div class="panel p-5 accent-teal">
+                    <h3 class="font-mono text-xs tracking-widest uppercase text-teal-800 mb-2">Repeatability</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Calibrated pin electronics, fixture delay compensation, and frozen test programs eliminate setup variance. Every unit sees identical stimulus &mdash; critical for SPC and yield trending across lots and fabs.
+                    </p>
+                </div>
+                <div class="panel p-5 accent-blue">
+                    <h3 class="font-mono text-xs tracking-widest uppercase text-cyan-800 mb-2">Integrated sync</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Digital patterns, analog instruments, and RF sources share a unified timing backbone. Backplane synchronization replaces manual trigger cables &mdash; enabling ns-level correlation across hundreds of pins on a single SoC.
+                    </p>
+                </div>
+                <div class="panel p-5 accent-green">
+                    <h3 class="font-mono text-xs tracking-widest uppercase text-emerald-800 mb-2">Multisite throughput</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Eight, sixteen, or more sites test in parallel on one handler index. Test time per part drops proportionally while handler cadence sets the floor &mdash; the primary lever for cost-of-test at volume.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ttm" class="article-section">
+            <p class="section-kicker">Schedule</p>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Accelerating Time-to-Market</h2>
+            <p class="article-section__lead">
+                Test development that runs in parallel with silicon bring-up compresses the path from tape-out to HVM readiness.
+            </p>
+
+            <div class="article-prose">
+                <p>
+                    <strong>Concurrent test development.</strong> Simulated vectors from EDA flows and architectural test plans can be ported to ATE test programs before first silicon arrives. SmarTest and UltraFLEX environments support pattern and timing development against simulation models &mdash; reducing the sequential wait for bench characterization to complete before ATE work begins.
+                </p>
+                <p>
+                    <strong>Rapid yield learning.</strong> Production bin maps accumulate statistically significant data within hours of HVM start. SPC rules flag drift before escapes reach the field. Bench teams receive failing units with full datalog context &mdash; bin number, site, lot, and test step &mdash; accelerating root-cause isolation.
+                </p>
+                <p>
+                    <strong>Automated performance binning.</strong> Process variation creates a distribution of Fmax, leakage, and analog performance across die. ATE screens sort units into SKU grades automatically &mdash; premium, standard, and downgrade bins &mdash; without manual per-part bench evaluation. This is performance binning and SKU grading at production scale.
+                </p>
+            </div>
+
+            <div class="key-insight">
+                <strong>Schedule impact:</strong> Organizations that align bench characterization milestones with ATE program milestones &mdash; not sequence them &mdash; routinely shave weeks off NPI schedules.
+            </div>
+        </section>
+
+        <section id="cheatsheet" class="article-section article-wide">
+            <p class="section-kicker">Reference</p>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Bench vs. ATE &mdash; Reference Comparison</h2>
+            <p class="article-section__lead">
+                A consolidated view for test strategy discussions, program reviews, and migration planning.
+            </p>
+
+            <div class="compare-table-wrap">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Dimension</th>
+                            <th scope="col">Bench</th>
+                            <th scope="col">ATE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Lifecycle phase</th>
+                            <td>NPI, first silicon, design validation</td>
+                            <td>HVM, wafer sort, final test, SLT</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Primary objective</th>
+                            <td>Characterize behavior, establish limits, debug failures</td>
+                            <td>Screen every unit, bin, track yield</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Instrumentation</th>
+                            <td>Scopes, SMUs, analyzers, ad-hoc scripts</td>
+                            <td>Pin electronics, PPMU, digital patterns, RF modules</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">DUT interface</th>
+                            <td>Eval board, socketed loadboard, probe needles</td>
+                            <td>Custom DIB, pogo pins, handler socket</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Timing</th>
+                            <td>Instrument-limited, setup-dependent</td>
+                            <td>Deterministic, calibrated to DUT pin (fixture delay)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Throughput</th>
+                            <td>Single site, engineer-paced</td>
+                            <td>Multisite parallel, handler-indexed</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Repeatability</th>
+                            <td>Moderate &mdash; cable and setup variance</td>
+                            <td>High &mdash; frozen program, calibrated hardware</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Debug depth</th>
+                            <td>Deep &mdash; waveform, margin, DOE</td>
+                            <td>Limited &mdash; bin and datalog, escalate to bench</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Economics</th>
+                            <td>Lower CapEx, higher cost per part</td>
+                            <td>High CapEx, low cost per part at volume</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Data output</th>
+                            <td>Engineer notebooks, plots, reports</td>
+                            <td>Bin maps, STDF, SPC, yield dashboards</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Owning team</th>
+                            <td>DV, silicon validation, characterization</td>
+                            <td>Product test, production test engineering</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="industrialization" class="article-section article-wide">
+            <p class="section-kicker">Migration</p>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Bench-to-ATE Program Transfer</h2>
+            <p class="article-section__lead">
+                Moving from characterized limits to a production-ready test program follows four engineering gates. Skipping any gate invites correlation failure and schedule slip.
+            </p>
+
+            <figure class="article-figure">
+                <img src="global-src/assets/migration-phases.svg" alt="Four engineering gates for bench-to-ATE transfer: feasibility, prerequisites, transfer, and correlation leading to HVM" width="1000" height="280" loading="lazy">
+                <figcaption class="article-figure__caption">Program transfer gates &mdash; feasibility through correlation</figcaption>
+            </figure>
+
+            <div class="phase-timeline">
+                <div class="phase-timeline__step">
+                    <div class="phase-timeline__num">Phase 1</div>
+                    <div class="phase-timeline__title">Feasibility</div>
+                    <div class="phase-timeline__desc">
+                        Match tester resources to device requirements: pin count, digital speed, mixed-signal and RF instrument needs. Model test time against cost-of-test targets before committing loadboard and program development.
+                    </div>
+                </div>
+                <div class="phase-timeline__step">
+                    <div class="phase-timeline__num">Phase 2</div>
+                    <div class="phase-timeline__title">Prerequisites</div>
+                    <div class="phase-timeline__desc">
+                        Secure a golden device characterized on bench. Freeze the test specification &mdash; parametric limits, functional coverage, and pass/fail criteria. Port simulated vectors from design verification into the ATE environment.
+                    </div>
+                </div>
+                <div class="phase-timeline__step">
+                    <div class="phase-timeline__num">Phase 3</div>
+                    <div class="phase-timeline__title">Transfer</div>
+                    <div class="phase-timeline__desc">
+                        Design and build the production loadboard or DIB. Develop the ATE test program on SmarTest, UltraFLEX, or equivalent. Map bench measurements to ATE test steps with explicit limit translation.
+                    </div>
+                </div>
+                <div class="phase-timeline__step">
+                    <div class="phase-timeline__num">Phase 4</div>
+                    <div class="phase-timeline__title">Production risks</div>
+                    <div class="phase-timeline__desc">
+                        Execute bench-ATE correlation on the golden device. Characterize fixture parasitics, multisite ground bounce, and bandwidth limits that bench instruments mask. Resolve discrepancies before HVM release.
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-prose mt-6">
+                <p>
+                    Correlation is not a one-time event. Process shifts, ECOs, and new failure modes require ongoing bench-ATE alignment. Teams that institutionalize this handshake &mdash; with defined tolerance bands, golden device refresh cycles, and escalation paths &mdash; maintain yield stability across product generations.
+                </p>
+            </div>
+
+            <div class="section-cta">
+                <a href="index.html#modules" class="hero-cta-primary">
+                    Explore learning modules
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-950 text-white border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-2 gap-10 items-start">
+                <div>
+                    <p class="font-mono text-xs tracking-widest uppercase text-cyan-400 mb-2">About</p>
+                    <h2 class="text-xl font-bold mb-2">Siva Chidambaram</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-1">
+                        Sr. Silicon Validation Engineer &middot; Tessolve &middot; Bengaluru
+                    </p>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        ARM SoC bring-up, silicon validation, and production test on Advantest V93000 / SmarTest. ~7 years in semiconductor test and validation.
+                    </p>
+                    <a href="https://www.linkedin.com/in/siva-chidambaram/" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center gap-2 bg-cyan-700 hover:bg-cyan-600 text-white text-sm font-semibold py-2 px-4 rounded transition-colors">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 114.127 0 2.063 2.063 0 01-2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        LinkedIn
+                    </a>
+                </div>
+                <div class="text-slate-500 text-sm md:text-right">
+                    <p class="font-mono text-xs tracking-wide text-slate-400 mb-2">ATE CONCEPTS HUB</p>
+                    <p>Interactive reference for semiconductor production test.</p>
+                    <p class="mt-3"><a href="index.html" class="text-cyan-400 hover:text-cyan-300 transition-colors">&larr; Back to Hub</a></p>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-10 pt-6 text-center text-slate-600 text-xs font-mono">
+                &copy; 2026 Siva Chidambaram &middot; ATE Concepts Hub
+            </div>
+        </div>
+    </footer>
+
+    <script src="global-src/js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof initMobileNav === 'function') initMobileNav();
+        });
+    </script>
+</body>
+</html>

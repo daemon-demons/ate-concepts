@@ -4,6 +4,15 @@
  */
 const LEARNING_MODULES = [
     {
+        id: 'scaling-silicon',
+        title: 'Scaling Silicon',
+        description: 'From bench characterization to ATE industrialization — synergy, TTM, and program transfer.',
+        href: 'scaling-silicon.html',
+        tags: ['Bench', 'ATE', 'NPI'],
+        status: 'live',
+        accent: 'teal'
+    },
+    {
         id: 'fixture-delay',
         title: 'Fixture Delay Calibration',
         description: 'PPMU reflectometry, TDR, and t_fixture math on the Advantest V93000 SmarTest platform.',

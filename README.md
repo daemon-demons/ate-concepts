@@ -12,6 +12,7 @@ Open [index.html](index.html) in a browser to explore the hub and jump into live
 
 | Module | Status |
 |--------|--------|
+| [Scaling Silicon](scaling-silicon.html) | Live |
 | [Fixture Delay Calibration](fixture-delay/fixture-delay.html) | Live |
 | Multisite Testing | Coming soon |
 | Binning & Yield | Coming soon |
